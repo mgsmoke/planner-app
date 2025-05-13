@@ -1,31 +1,12 @@
 import { useHabitStore } from '../../../store/habitStore';
-import { useState } from 'react';
-import InputWithButton from '../../../components/InputWithButton';
 
 function HabitTracker() {
-  const { habits, addHabit, toggleHabitDay, removeHabit } = useHabitStore();
-  const [input, setInput] = useState('');
+  const { habits, toggleHabitDay, removeHabit } = useHabitStore();
   const today = new Date().getDate();
-
-  const handleAdd = () => {
-    if (input.trim()) {
-      addHabit(input.trim());
-      setInput('');
-    }
-  };
 
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
-
-      <InputWithButton
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onClick={handleAdd}
-        placeholder="Новая привычка"
-      />
-
-
       <ul className="flex flex-col gap-3 mt-4">
         {habits.map((habit) => (
           <li

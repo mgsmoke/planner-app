@@ -1,27 +1,11 @@
 import { useTodoStore } from '../../../store/todoStore';
-import { useState } from 'react';
-import InputWithButton from '../../../components/InputWithButton';
 
 function TodoList() {
-  const { todos, addTodo, toggleTodo, removeTodo } = useTodoStore();
-  const [input, setInput] = useState('');
-
-  const handleAdd = () => {
-    if (input.trim() !== '') {
-      addTodo(input.trim());
-      setInput('');
-    }
-  };
+  const { todos, toggleTodo, removeTodo } = useTodoStore();
 
   return (
     <div className="mb-6">
       <h2 className="text-lg font-bold mb-4">Ваши дела</h2>
-      <InputWithButton
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onClick={handleAdd}
-        placeholder="Введите задачу..."
-      />
       <ul className="flex flex-col gap-2">
         {todos.map((todo) => (
           <li

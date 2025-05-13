@@ -1,5 +1,6 @@
 import ArticleCard from './components/ArticleCard';
 import { articles } from './data/articles';
+import BottomSearchBar from './components/BottomSearchBar';
 
 function EducationSection() {
   return (
@@ -8,6 +9,7 @@ function EducationSection() {
       {articles.map((a) => (
         <ArticleCard key={a.id} article={a} />
       ))}
+      <BottomSearchBar />
     </div>
   );
 }
