@@ -1,5 +1,6 @@
 import { useHabitStore } from '../../../store/habitStore';
 import { useState } from 'react';
+import InputWithButton from '../../components/InputWithButton';
 
 function HabitTracker() {
   const { habits, addHabit, toggleHabitDay, removeHabit } = useHabitStore();
@@ -16,20 +17,21 @@ function HabitTracker() {
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
-      <div className="flex gap-2 mb-4">
-        <input
-          className="border p-2 flex-1"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Новая привычка"
-        />
-        <button className="bg-green-500 text-white px-4 rounded" onClick={handleAdd}>
-          +
-        </button>
-      </div>
-      <ul className="flex flex-col gap-3">
+
+      <InputWithButton
+        value={input}
+        onChange={setInput}
+        onClick={handleAdd}
+        placeholder="Новая привычка"
+        buttonLabel="+"
+      />
+
+      <ul className="flex flex-col gap-3 mt-4">
         {habits.map((habit) => (
-          <li key={habit.id} className="flex justify-between items-center border p-2 rounded">
+          <li
+            key={habit.id}
+            className="flex justify-between items-center border p-2 rounded w-full"
+          >
             <div>
               <span>{habit.name}</span>
               <span className="ml-2 text-xs text-gray-500">
