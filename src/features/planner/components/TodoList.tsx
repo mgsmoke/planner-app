@@ -1,6 +1,6 @@
 import { useTodoStore } from '../../../store/todoStore';
 import { useState } from 'react';
-import Button from '../../../components/Button';
+import InputWithButton from '../../../components/InputWithButton';
 
 function TodoList() {
   const { todos, addTodo, toggleTodo, removeTodo } = useTodoStore();
@@ -16,16 +16,12 @@ function TodoList() {
   return (
     <div className="mb-6">
       <h2 className="text-lg font-bold mb-4">Ваши дела</h2>
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="border p-2 flex-1"
-          placeholder="Введите задачу..."
-        />
-        <Button onClick={handleAdd}>Добавить</Button>
-      </div>
+      <InputWithButton
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onClick={handleAdd}
+        placeholder="Введите задачу..."
+      />
       <ul className="flex flex-col gap-2">
         {todos.map((todo) => (
           <li

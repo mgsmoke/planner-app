@@ -20,7 +20,7 @@ function HabitTracker() {
 
       <InputWithButton
         value={input}
-        onChange={(e) => setInput(e.target.value)} // ✅ теперь всё норм
+        onChange={(e) => setInput(e.target.value)}
         onClick={handleAdd}
         placeholder="Новая привычка"
       />
