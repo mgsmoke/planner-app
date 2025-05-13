@@ -1,6 +1,6 @@
 import { useHabitStore } from '../../../store/habitStore';
 import { useState } from 'react';
-import InputWithButton from '../../components/InputWithButton';
+import InputWithButton from '../../../components/InputWithButton';
 
 function HabitTracker() {
   const { habits, addHabit, toggleHabitDay, removeHabit } = useHabitStore();
@@ -20,11 +20,11 @@ function HabitTracker() {
 
       <InputWithButton
         value={input}
-        onChange={setInput}
+        onChange={(e) => setInput(e.target.value)} // ✅ теперь всё норм
         onClick={handleAdd}
         placeholder="Новая привычка"
-        buttonLabel="+"
       />
+
 
       <ul className="flex flex-col gap-3 mt-4">
         {habits.map((habit) => (
