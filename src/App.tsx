@@ -8,12 +8,14 @@ function App() {
   return (
     <Router>
       <div className="pb-16"> {/* отступ снизу, чтобы TabBar не перекрывал контент */}
+        <div className="min-h-screen bg-white pb-16">
         <Routes>
           <Route path="/" element={<Planner />} />
           <Route path="/education" element={<Education />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
         <TabBar />
+        </div>
       </div>
     </Router>
   );
