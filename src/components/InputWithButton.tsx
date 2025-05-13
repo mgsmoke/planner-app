@@ -1,28 +1,22 @@
-type InputWithButtonProps = {
+function InputWithButton({ value, onChange, onClick, placeholder }: {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
   placeholder?: string;
-  buttonLabel?: string;
-};
-
-function InputWithButton({
-  value,
-  onChange,
-  onClick,
-  placeholder = '',
-  buttonLabel = '+',
-}: InputWithButtonProps) {
+}) {
   return (
-    <div className="flex gap-2 w-full">
+    <div className="flex gap-2 mb-4">
       <input
         className="border p-2 flex-1"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
         placeholder={placeholder}
       />
-      <button className="bg-green-500 text-white px-4 rounded" onClick={onClick}>
-        {buttonLabel}
+      <button
+        className="bg-green-500 text-white px-4 rounded"
+        onClick={onClick}
+      >
+        +
       </button>
     </div>
   );
