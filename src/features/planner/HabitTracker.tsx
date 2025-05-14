@@ -1,4 +1,5 @@
-import { useHabitStore } from '../../../store/habitStore';
+import { useHabitStore } from '../../store/habitStore';
+import Button from '../../components/AppButton';
 
 function HabitTracker() {
   const { habits, toggleHabitDay, removeHabit } = useHabitStore();
@@ -20,17 +21,18 @@ function HabitTracker() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 className={`px-2 py-1 text-sm rounded ${
                   habit.days.includes(today) ? 'bg-green-500 text-white' : 'bg-gray-200'
                 }`}
                 onClick={() => toggleHabitDay(habit.id, today)}
-              >
-                {habit.days.includes(today) ? '✓' : 'Сегодня'}
-              </button>
-              <button className="text-red-500" onClick={() => removeHabit(habit.id)}>
-                ✕
-              </button>
+                label={habit.days.includes(today) ? '✓' : 'Сегодня'}
+              />
+              <Button 
+                onClick={() => removeHabit(habit.id)} 
+                label="✕" 
+                className="text-red-500 font-bold" 
+              />
             </div>
           </li>
         ))}

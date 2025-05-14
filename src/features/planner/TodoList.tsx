@@ -1,7 +1,9 @@
-import { useTodoStore } from '../../../store/todoStore';
+import { useTodoStore } from '../../store/todoStore';
+import Button from '../../components/AppButton';
 
 function TodoList() {
-  const { todos, toggleTodo, removeTodo } = useTodoStore();
+  const { todos, toggleTodo, removeTodo} = useTodoStore();
+
 
   return (
     <div className="mb-6">
@@ -18,15 +20,11 @@ function TodoList() {
             >
               {todo.text}
             </span>
-            <button
-              onClick={() => removeTodo(todo.id)}
-              className="text-red-500 font-bold"
-            >
-              ✕
-            </button>
+            <Button onClick={() => removeTodo(todo.id)} label="✕" className="text-red-500 font-bold" />
           </li>
         ))}
       </ul>
+
     </div>
   );
 }
