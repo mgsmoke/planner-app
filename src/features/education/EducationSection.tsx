@@ -34,7 +34,7 @@ const EducationSection: React.FC = () => {
       <div className="mb-6">
         {selectedSection === 'articles' && (
           <div className="grid grid-cols-1 gap-6">
-            <h3 className="font-semibold text-xl mb-4">Статьи</h3>
+            <h3 className="font-semibold text-xl">Статьи</h3>
             {articles.map((article: Article, index: number) => (
               <ArticleCard key={index} article={article} />
             ))}
