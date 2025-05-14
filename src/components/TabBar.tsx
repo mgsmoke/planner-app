@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 const tabs = [
-  { path: '/', label: 'Планер' },
+  { path: '/planner', label: 'Планер' },
   { path: '/education', label: 'Образование' },
   { path: '/profile', label: 'Профиль' },
 ];

@@ -1,6 +1,10 @@
-export type Article = {
-    id: number;
-    title: string;
-    content: string;
-    image?: string;
-  };
+export interface Article {
+  title: string;
+  description: string;
+}
+
+export interface Quiz {
+  title: string;
+  description: string;
+  link: string;
+}

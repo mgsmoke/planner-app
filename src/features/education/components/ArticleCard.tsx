@@ -1,17 +1,17 @@
+import React from 'react';
 import { Article } from '../types';
 
-type Props = {
+interface Props {
   article: Article;
-};
+}
 
-function ArticleCard({ article }: Props) {
+const ArticleCard: React.FC<Props> = ({ article }) => {
   return (
-    <div className="border p-4 rounded mb-4">
-      <h3 className="text-lg font-bold">{article.title}</h3>
-      {article.image && <img src={article.image} alt="" className="my-2 rounded" />}
-      <p>{article.content}</p>
+    <div className="p-4 border rounded shadow">
+      <h4 className="font-semibold">{article.title}</h4>
+      <p>{article.description}</p>
     </div>
   );
-}
+};
 
 export default ArticleCard;
