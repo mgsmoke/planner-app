@@ -12,28 +12,27 @@ function HabitTracker() {
         {habits.map((habit) => (
           <li
             key={habit.id}
-            className="flex justify-between items-center border p-2 rounded w-full"
+            className={`flex justify-between items-center border p-2 rounded-full w-full ${
+              habit.days.includes(today) 
+                ? 'bg-green-500 text-white border-green-500' 
+                : 'border-green-500'
+            }`}
+            onClick={() => toggleHabitDay(habit.id, today)}
           >
             <div>
               <span>{habit.name}</span>
-              <span className="ml-2 text-xs text-gray-500">
+              <span className="ml-2 text-xs opacity-80">
                 Выполнено {habit.days.length} раз
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <Button
-                className={`px-2 py-1 text-sm rounded ${
-                  habit.days.includes(today) ? 'bg-green-500 text-white' : 'bg-gray-200'
-                }`}
-                onClick={() => toggleHabitDay(habit.id, today)}
-                label={habit.days.includes(today) ? '✓' : 'Сегодня'}
-              />
-              <Button 
-                onClick={() => removeHabit(habit.id)} 
-                label="✕" 
-                className="text-red-500 font-bold" 
-              />
-            </div>
+            <Button 
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                removeHabit(habit.id);
+              }} 
+              label="✕" 
+              className="text-red-500 font-bold px-2 py-1 rounded-full" 
+            />
           </li>
         ))}
       </ul>

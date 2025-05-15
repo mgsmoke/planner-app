@@ -1,5 +1,5 @@
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   label: string;
   className: string;
 }
