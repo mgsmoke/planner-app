@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useSelectedDateStore } from '../../../store/SelectedDateStore';
+import { useSelectedDateStore } from '../../../store/dateStore';
 
 const CalendarPopup = () => {
   const [isOpen, setIsOpen] = useState(false);

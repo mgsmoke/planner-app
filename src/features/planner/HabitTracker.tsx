@@ -1,5 +1,5 @@
 import { useHabitStore } from '../../store/habitStore';
-import { useSelectedDateStore } from '../../store/SelectedDateStore';
+import { useSelectedDateStore } from '../../store/dateStore';
 import Button from '../../components/AppButton';
 
 const colorMap: Record<string, string> = {

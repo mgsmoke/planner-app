@@ -1,7 +1,7 @@
 import React from 'react';
 import { format, addDays, isToday, isSameDay } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useSelectedDateStore } from '../../../store/SelectedDateStore';
+import { useSelectedDateStore } from '../../../store/dateStore';
 
 interface DateStripProps {
   daysToShow?: number;
