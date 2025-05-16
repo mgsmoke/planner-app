@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AddModal from '../../../components/AddModal';
+import AddHabitModal from '../components/AddHabitModal';
 import { useTodoStore } from '../../../store/todoStore';
 import { useHabitStore } from '../../../store/habitStore';
 
@@ -14,8 +15,8 @@ function FloatingActionButton() {
     addTodo(input);
   };
 
-  const handleAddHabit = (input: string) => {
-    addHabit(input);
+  const handleAddHabit = (name: string, color: string, icon: string) => {
+    addHabit(name, color, icon);
   };
 
   return (
@@ -30,12 +31,9 @@ function FloatingActionButton() {
         />
       )}
       {modalType === 'habit' && (
-        <AddModal
+        <AddHabitModal
           onClose={() => setModalType(null)}
           onAdd={handleAddHabit}
-          title="Новая привычка"
-          placeholder="Введите привычку..."
-          buttonLabel="Добавить привычку"
         />
       )}
 

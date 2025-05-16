@@ -1,40 +1,65 @@
 import { useHabitStore } from '../../store/habitStore';
+import { useSelectedDateStore } from '../../store/SelectedDateStore';
 import Button from '../../components/AppButton';
+
+const colorMap: Record<string, string> = {
+  red: 'bg-red-500 text-white border-red-500',
+  blue: 'bg-blue-500 text-white border-blue-500',
+  green: 'bg-green-500 text-white border-green-500',
+  yellow: 'bg-yellow-500 text-white border-yellow-500',
+  purple: 'bg-purple-500 text-white border-purple-500',
+  pink: 'bg-pink-500 text-white border-pink-500',
+  gray: 'bg-gray-500 text-white border-gray-500',
+};
+
+const borderMap: Record<string, string> = {
+  red: 'border border-red-500',
+  blue: 'border border-blue-500',
+  green: 'border border-green-500',
+  yellow: 'border border-yellow-500',
+  purple: 'border border-purple-500',
+  pink: 'border border-pink-500',
+  gray: 'border border-gray-500',
+};
 
 function HabitTracker() {
   const { habits, toggleHabitDay, removeHabit } = useHabitStore();
-  const today = new Date().getDate();
+  const { selectedDate } = useSelectedDateStore();
+
+  const formattedDate = selectedDate.toISOString().split('T')[0];
 
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
       <ul className="flex flex-col gap-3 mt-4">
-        {habits.map((habit) => (
-          <li
-            key={habit.id}
-            className={`flex justify-between items-center border p-2 rounded-full w-full ${
-              habit.days.includes(today) 
-                ? 'bg-green-500 text-white border-green-500' 
-                : 'border-green-500'
-            }`}
-            onClick={() => toggleHabitDay(habit.id, today)}
-          >
-            <div>
-              <span>{habit.name}</span>
-              <span className="ml-2 text-xs opacity-80">
-                Выполнено {habit.days.length} раз
-              </span>
-            </div>
-            <Button 
-              onClick={(e: React.MouseEvent) => {
-                e.stopPropagation();
-                removeHabit(habit.id);
-              }} 
-              label="✕" 
-              className="text-red-500 font-bold px-2 py-1 rounded-full" 
-            />
-          </li>
-        ))}
+        {habits.map((habit) => {
+          const isActive = habit.days.includes(formattedDate);
+          const colorClass = isActive
+            ? colorMap[habit.color] || 'bg-green-500 text-white border-green-500'
+            : borderMap[habit.color] || 'border border-green-500';
+
+          return (
+            <li
+              key={habit.id}
+              className={`flex justify-between items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
+              onClick={() => toggleHabitDay(habit.id, formattedDate)}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{habit.icon}</span>
+                <span>{habit.name}</span>
+                <span className="ml-2">🔥{habit.days.length}</span>
+              </div>
+              <Button
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  removeHabit(habit.id);
+                }}
+                label="✕"
+                className="text-red-500 font-bold px-2 py-1 rounded-full"
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
