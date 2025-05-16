@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay } from 'date-fns';
+import {format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, getDay} from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { useState, useEffect } from 'react';
 import { useSelectedDateStore } from '../../../store/dateStore';
 
 const CalendarPopup = () => {
@@ -19,6 +19,8 @@ const CalendarPopup = () => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
   const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+  const weekdayOffset = (getDay(monthStart) + 6) % 7;
 
   const selectDate = (day: Date) => {
     setSelectedDate(day);
@@ -57,6 +59,10 @@ const CalendarPopup = () => {
           </div>
 
           <div className="grid grid-cols-7 gap-1">
+            {Array.from({ length: weekdayOffset }).map((_, index) => (
+              <div key={`empty-${index}`} />
+            ))}
+
             {monthDays.map(day => {
               const isSelected = isSameDay(day, selectedDate);
               const isCurrentMonth = isSameMonth(day, currentMonth);
