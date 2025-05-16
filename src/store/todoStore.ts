@@ -4,11 +4,12 @@ type Todo = {
   id: number;
   text: string;
   done: boolean;
+  date?: string;
 };
 
 type TodoStore = {
   todos: Todo[];
-  addTodo: (text: string) => void;
+  addTodo: (text: string, date?: string) => void;
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
 };
@@ -21,12 +22,12 @@ const loadTodos = (): Todo[] => {
 export const useTodoStore = create<TodoStore>((set) => ({
   todos: loadTodos(),
 
-  addTodo: (text) =>
-    set((state) => {
-      const newTodos = [...state.todos, { id: Date.now(), text, done: false }];
-      localStorage.setItem('todos', JSON.stringify(newTodos));
-      return { todos: newTodos };
-    }),
+  addTodo: (text: string, date?: string) =>
+  set((state) => {
+    const newTodos = [...state.todos, { id: Date.now(), text, done: false, date }];
+    localStorage.setItem('todos', JSON.stringify(newTodos));
+    return { todos: newTodos };
+  }),
 
   toggleTodo: (id) =>
     set((state) => {

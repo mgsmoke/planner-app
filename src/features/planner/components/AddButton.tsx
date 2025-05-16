@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AddModal from '../../../components/AddModal';
+import AddTodoModal from '../components/AddTodoModal';
 import AddHabitModal from '../components/AddHabitModal';
 import { useTodoStore } from '../../../store/todoStore';
 import { useHabitStore } from '../../../store/habitStore';
@@ -11,8 +11,8 @@ function FloatingActionButton() {
   const { addTodo } = useTodoStore();
   const { addHabit } = useHabitStore();
 
-  const handleAddTodo = (input: string) => {
-    addTodo(input);
+  const handleAddTodo = (text: string, date?: string) => {
+    addTodo(text, date);
   };
 
   const handleAddHabit = (name: string, color: string, icon: string) => {
@@ -22,12 +22,9 @@ function FloatingActionButton() {
   return (
     <>
       {modalType === 'todo' && (
-        <AddModal
+        <AddTodoModal
           onClose={() => setModalType(null)}
           onAdd={handleAddTodo}
-          title="Новая задача"
-          placeholder="Введите задачу..."
-          buttonLabel="Добавить задачу"
         />
       )}
       {modalType === 'habit' && (
