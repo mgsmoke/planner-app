@@ -9,9 +9,8 @@ function Planner() {
   return (
     <div className="p-4">
       <div className="flex gap-2">
-      <CalendarPopup />
-      <DateStrip
-      />
+        <CalendarPopup />
+        <DateStrip/>
       </div>
       <HabitTracker />
       <TodoList />
