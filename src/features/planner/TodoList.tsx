@@ -1,6 +1,6 @@
 import { useTodoStore } from '../../store/todoStore';
-import Button from '../../components/AppButton';
 import { useSelectedDateStore } from '../../store/dateStore';
+import SwipeActions from './components/SwipeActions';
 import {
   isSameDay,
   isBefore,
@@ -28,23 +28,24 @@ function TodoList() {
   };
 
 
-  const renderTodoItem = (todo: typeof todos[0]) => {
-    const display = getDisplayInfo(parseDate(todo.date));
-    return (
-      <li key={todo.id} className="flex flex-col border p-2 rounded">
-        <div className="flex justify-between items-center">
-          <span
-            onClick={() => toggleTodo(todo.id)}
-            className={todo.done ? 'line-through text-gray-400 cursor-pointer' : 'cursor-pointer'}
-          >
+const renderTodoItem = (todo: typeof todos[0]) => {
+  const display = getDisplayInfo(parseDate(todo.date));
+  return (
+    <li key={todo.id} className="w-full rounded border overflow-hidden">
+      <SwipeActions
+        onEdit={() => toggleTodo(todo.id)}
+        onDelete={() => removeTodo(todo.id)}
+      >
+        <div className="flex flex-col justify-center gap-1">
+          <span className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
             {todo.text}
           </span>
-          <Button onClick={() => removeTodo(todo.id)} label="✕" className="text-red-500 font-bold" />
+          {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
         </div>
-        {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
-      </li>
-    );
-  };
+      </SwipeActions>
+    </li>
+  );
+};
 
   const filteredTodos = todos
     .map(todo => ({
