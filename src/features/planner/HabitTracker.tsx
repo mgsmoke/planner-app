@@ -1,68 +1,100 @@
-import { useHabitStore } from '../../store/habitStore';
-import { useSelectedDateStore } from '../../store/dateStore';
-import Button from '../../components/AppButton';
+import React, { useState } from 'react';
+import { FaRunning, FaBook, FaAppleAlt, FaCoffee } from 'react-icons/fa';
+import clsx from 'clsx';
 
-const colorMap: Record<string, string> = {
-  red: 'bg-red-500 text-white border-red-500',
-  blue: 'bg-blue-500 text-white border-blue-500',
-  green: 'bg-green-500 text-white border-green-500',
-  yellow: 'bg-yellow-500 text-white border-yellow-500',
-  purple: 'bg-purple-500 text-white border-purple-500',
-  pink: 'bg-pink-500 text-white border-pink-500',
-  gray: 'bg-gray-500 text-white border-gray-500',
-};
+const colors = ['green', 'blue', 'red', 'purple', 'yellow'];
 
-const borderMap: Record<string, string> = {
-  red: 'border border-red-500',
-  blue: 'border border-blue-500',
-  green: 'border border-green-500',
-  yellow: 'border border-yellow-500',
-  purple: 'border border-purple-500',
-  pink: 'border border-pink-500',
-  gray: 'border border-gray-500',
-};
+const icons = [
+  { name: 'run', icon: <FaRunning /> },
+  { name: 'book', icon: <FaBook /> },
+  { name: 'apple', icon: <FaAppleAlt /> },
+  { name: 'coffee', icon: <FaCoffee /> },
+];
 
-function HabitTracker() {
-  const { habits, toggleHabitDay, removeHabit } = useHabitStore();
-  const { selectedDate } = useSelectedDateStore();
-
-  const formattedDate = selectedDate.toISOString().split('T')[0];
-
-  return (
-    <div className="p-4">
-      <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
-      <ul className="flex flex-col gap-3 mt-4">
-        {habits.map((habit) => {
-          const isActive = habit.days.includes(formattedDate);
-          const colorClass = isActive
-            ? colorMap[habit.color] || 'bg-green-500 text-white border-green-500'
-            : borderMap[habit.color] || 'border border-green-500';
-
-          return (
-            <li
-              key={habit.id}
-              className={`flex justify-between items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
-              onClick={() => toggleHabitDay(habit.id, formattedDate)}
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{habit.icon}</span>
-                <span>{habit.name}</span>
-                <span className="ml-2">🔥{habit.days.length}</span>
-              </div>
-              <Button
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  removeHabit(habit.id);
-                }}
-                label="✕"
-                className="text-red-500 font-bold px-2 py-1 rounded-full"
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+interface AddHabitModalProps {
+  onClose: () => void;
+  onAdd: (name: string, color: string, icon: string) => void;
 }
 
-export default HabitTracker;
+const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
+  const [name, setName] = useState('');
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [selectedIcon, setSelectedIcon] = useState(icons[0].name);
+
+  const handleSubmit = () => {
+    if (!name.trim()) return;
+    onAdd(name.trim(), selectedColor, selectedIcon);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+      <div className="bg-white p-4 rounded-xl w-80 space-y-4">
+        <h2 className="text-xl font-bold">Новая привычка</h2>
+
+        <input
+          type="text"
+          placeholder="Введите привычку..."
+          className="w-full border rounded p-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <div>
+          <p className="font-medium mb-1">Цвет:</p>
+          <div className="flex gap-2">
+            {colors.map((color) => (
+              <button
+                key={color}
+                onClick={() => setSelectedColor(color)}
+                className={clsx(
+                  'w-6 h-6 rounded-full border-2',
+                  {
+                    'bg-green-500': color === 'green',
+                    'bg-blue-500': color === 'blue',
+                    'bg-red-500': color === 'red',
+                    'bg-purple-500': color === 'purple',
+                    'bg-yellow-500': color === 'yellow',
+                  },
+                  selectedColor === color ? 'border-black' : 'border-transparent'
+                )}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="font-medium mb-1">Иконка:</p>
+          <div className="flex gap-2">
+            {icons.map(({ name, icon }) => (
+              <button
+                key={name}
+                onClick={() => setSelectedIcon(name)}
+                className={clsx(
+                  'p-2 border rounded-full text-xl',
+                  selectedIcon === name ? 'border-black' : 'border-gray-300'
+                )}
+              >
+                {icon}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">
+            Отмена
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Добавить
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddHabitModal;

@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { FaRunning, FaBook, FaAppleAlt, FaCoffee } from 'react-icons/fa';
 import clsx from 'clsx';
 
-const colors = [
-  'green-500',
-  'blue-500',
-  'red-500',
-  'purple-500',
-  'yellow-500',
-];
+const colors = ['green', 'blue', 'red', 'purple', 'yellow'];
 
 const icons = [
   { name: 'run', icon: <FaRunning /> },
@@ -50,15 +44,13 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
           <p className="font-medium mb-1">Цвет:</p>
           <div className="flex gap-2">
             {colors.map((color) => (
-              <button
-                key={color}
-                onClick={() => setSelectedColor(color)}
-                className={clsx(
-                  'w-6 h-6 rounded-full border-2',
-                  `bg-${color}`,
-                  selectedColor === color ? 'border-black' : 'border-transparent'
-                )}
-              />
+            <button
+              key={color}
+              onClick={() => setSelectedColor(color)}
+              className={clsx('w-6 h-6 rounded-full border-2',`bg-${color}-500`,
+                selectedColor === color ? 'border-black' : 'border-transparent'
+              )}
+            />
             ))}
           </div>
         </div>
