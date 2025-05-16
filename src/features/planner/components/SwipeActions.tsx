@@ -1,51 +1,47 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useAnimation } from 'framer-motion';
 
 type Props = {
-  onDelete: () => void;
-  onEdit: () => void;
   children: React.ReactNode;
+  onEdit: () => void;
+  onDelete: () => void;
 };
 
-export default function SwipeableItem({ onDelete, onEdit, children }: Props) {
+export default function SwipeableItem({ children, onEdit, onDelete }: Props) {
   const x = useMotionValue(0);
-  const backgroundX = useTransform(x, latestX => Math.max(-120, Math.min(0, latestX)));
+  const controls = useAnimation();
+  const SNAP_POINT = -120; // ширина кнопок
+
+  const handleDragEnd = async (_: any, info: any) => {
+    const offset = info.offset.x;
+
+    if (offset < SNAP_POINT / 2) {
+      // свайпнули достаточно — открываем
+      await controls.start({ x: SNAP_POINT, transition: { duration: 0.2 } });
+    } else {
+      // не дотянули — откатываем
+      await controls.start({ x: 0, transition: { duration: 0.2 } });
+    }
+  };
 
   return (
-    <div className="relative w-full h-[64px] overflow-hidden rounded">
-      {/* Кнопки — ниже основного слоя, невидимы пока не свайпнешь */}
-      <div className="absolute top-0 right-0 h-full flex items-center z-0 pr-2 pointer-events-none">
-        <div className="flex gap-2">
-          <button
-            onClick={onEdit}
-            className="w-[50px] h-[50px] bg-yellow-400 text-white rounded pointer-events-auto"
-          >
-            ✏️
-          </button>
-          <button
-            onClick={onDelete}
-            className="w-[50px] h-[50px] bg-red-500 text-white rounded pointer-events-auto"
-          >
-            🗑️
-          </button>
-        </div>
+    <div className="relative w-full h-[64px] overflow-hidden rounded bg-white">
+      {/* Кнопки сзади */}
+      <div className="absolute inset-0 flex justify-end items-center pr-4 gap-2 z-0">
+        <button onClick={onEdit} className="w-12 h-12 bg-yellow-400 text-white rounded">✏️</button>
+        <button onClick={onDelete} className="w-12 h-12 bg-red-500 text-white rounded">🗑️</button>
       </div>
 
-      {/* Сам элемент, который свайпается */}
+      {/* Контент, который двигается */}
       <motion.div
+        className="absolute inset-0 z-10 flex items-center px-4 bg-white"
         drag="x"
-        dragConstraints={{ left: -120, right: 0 }}
-        onDragEnd={(_, info) => {
-            if (info.offset.x < -60) {
-                backgroundX.set(-120); // полностью открываем
-            } else {
-                backgroundX.set(0); // возвращаем обратно
-            }
-        }}
-        style={{ x: backgroundX }}
-        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-        className="absolute top-0 left-0 w-full h-full bg-white z-10 flex items-center px-4"
-       >
-       {children}
+        dragConstraints={{ left: SNAP_POINT, right: 0 }}
+        dragElastic={0}
+        style={{ x }}
+        onDragEnd={handleDragEnd}
+        animate={controls}
+      >
+        {children}
       </motion.div>
     </div>
   );

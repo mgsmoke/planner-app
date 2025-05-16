@@ -1,6 +1,6 @@
 import { useHabitStore } from '../../store/habitStore';
 import { useSelectedDateStore } from '../../store/dateStore';
-import Button from '../../components/AppButton';
+import SwipeActions from './components/SwipeActions';
 
 const colorMap: Record<string, string> = {
   red: 'bg-red-500 text-white border-red-500',
@@ -39,25 +39,22 @@ function HabitTracker() {
             : borderMap[habit.color] || 'border border-green-500';
 
           return (
-            <li
+            <SwipeActions
               key={habit.id}
-              className={`flex justify-between items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
-              onClick={() => toggleHabitDay(habit.id, formattedDate)}
+              onDelete={() => removeHabit(habit.id)}
+              onEdit={() => {}}
             >
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{habit.icon}</span>
-                <span>{habit.name}</span>
-                <span className="ml-2">🔥{habit.days.length}</span>
-              </div>
-              <Button
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  removeHabit(habit.id);
-                }}
-                label="✕"
-                className="text-red-500 font-bold px-2 py-1 rounded-full"
-              />
-            </li>
+              <li
+                onClick={() => toggleHabitDay(habit.id, formattedDate)}
+                className={`flex justify-between items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{habit.icon}</span>
+                  <span>{habit.name}</span>
+                  <span className="ml-2">🔥{habit.days.length}</span>
+                </div>
+              </li>
+            </SwipeActions>
           );
         })}
       </ul>

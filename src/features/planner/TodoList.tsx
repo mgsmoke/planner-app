@@ -33,11 +33,13 @@ const renderTodoItem = (todo: typeof todos[0]) => {
   return (
     <li key={todo.id} className="w-full rounded border overflow-hidden">
       <SwipeActions
-        onEdit={() => toggleTodo(todo.id)}
+        onEdit={() => console.log("нету!")}
         onDelete={() => removeTodo(todo.id)}
       >
         <div className="flex flex-col justify-center gap-1">
-          <span className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
+          <span
+            onClick={() => toggleTodo(todo.id)}
+            className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
             {todo.text}
           </span>
           {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
