@@ -1,5 +1,3 @@
-// /src/features/education/EducationSection.tsx
-
 import React, { useState } from 'react';
 import ArticleCard from './components/ArticleCard';
 import QuizCard from './components/QuizCard';

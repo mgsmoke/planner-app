@@ -5,9 +5,9 @@ function CompletedList() {
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-bold my-4 ml-4">Выполненные задачи</h2>
+      <h2 className="text-lg font-bold py-4 pl-4">Выполненные задачи</h2>
       {completed.length === 0 ? (
-        <p className="text-gray-500 my-4 ml-4">Нет выполненных задач</p>
+        <p className="text-gray-500 py-4 pl-4">Нет выполненных задач</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {completed.map(todo => (
