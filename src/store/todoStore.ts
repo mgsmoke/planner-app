@@ -9,49 +9,87 @@ type Todo = {
 
 type TodoStore = {
   todos: Todo[];
+  completed: Todo[];
   addTodo: (text: string, date?: string) => void;
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
   editTodo: (id: number, text: string, date?: string) => void;
+  moveToCompleted: (id: number) => void;
+  restoreTodo: (id: number) => void;
 };
 
-const loadTodos = (): Todo[] => {
-  const stored = localStorage.getItem('todos');
+const load = (key: string): Todo[] => {
+  const stored = localStorage.getItem(key);
   return stored ? JSON.parse(stored) : [];
 };
 
-export const useTodoStore = create<TodoStore>((set) => ({
-  todos: loadTodos(),
+const save = (key: string, data: Todo[]) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
 
-  addTodo: (text: string, date?: string) =>
-  set((state) => {
-    const newTodos = [...state.todos, { id: Date.now(), text, done: false, date }];
-    localStorage.setItem('todos', JSON.stringify(newTodos));
-    return { todos: newTodos };
-  }),
+export const useTodoStore = create<TodoStore>((set) => ({
+  todos: load('todos'),
+  completed: load('completedTodos'),
+
+  addTodo: (text, date) =>
+    set((state) => {
+      const newTodos = [...state.todos, { id: Date.now(), text, done: false, date }];
+      save('todos', newTodos);
+      return { todos: newTodos };
+    }),
 
   toggleTodo: (id) =>
     set((state) => {
       const newTodos = state.todos.map((todo) =>
         todo.id === id ? { ...todo, done: !todo.done } : todo
       );
-      localStorage.setItem('todos', JSON.stringify(newTodos));
+      save('todos', newTodos);
       return { todos: newTodos };
     }),
 
   removeTodo: (id) =>
-    set((state) => {
-      const newTodos = state.todos.filter((todo) => todo.id !== id);
-      localStorage.setItem('todos', JSON.stringify(newTodos));
-      return { todos: newTodos };
-    }),
+  set((state) => {
+    const newTodos = state.todos.filter((todo) => todo.id !== id);
+    const newCompleted = state.completed.filter((todo) => todo.id !== id);
+    save('todos', newTodos);
+    save('completed', newCompleted);
+    return { todos: newTodos, completed: newCompleted };
+  }),
 
-    editTodo: (id, text, date) =>
+  editTodo: (id, text, date) =>
     set((state) => {
       const newTodos = state.todos.map((todo) =>
         todo.id === id ? { ...todo, text, date } : todo
       );
-      localStorage.setItem('todos', JSON.stringify(newTodos));
+      save('todos', newTodos);
       return { todos: newTodos };
+    }),
+
+  moveToCompleted: (id) =>
+    set((state) => {
+      const todo = state.todos.find((t) => t.id === id);
+      if (!todo) return {};
+      const updatedTodos = state.todos.filter((t) => t.id !== id);
+      const updatedCompleted = [...state.completed, todo];
+      save('todos', updatedTodos);
+      save('completedTodos', updatedCompleted);
+      return {
+        todos: updatedTodos,
+        completed: updatedCompleted,
+      };
+    }),
+
+  restoreTodo: (id) =>
+    set((state) => {
+      const todo = state.completed.find((t) => t.id === id);
+      if (!todo) return {};
+      const updatedCompleted = state.completed.filter((t) => t.id !== id);
+      const updatedTodos = [...state.todos, { ...todo, done: false }];
+      save('todos', updatedTodos);
+      save('completedTodos', updatedCompleted);
+      return {
+        todos: updatedTodos,
+        completed: updatedCompleted,
+      };
     }),
 }));

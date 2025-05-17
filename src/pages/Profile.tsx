@@ -1,20 +1,27 @@
 import ProfileHeader from '../features/profile/ProfileHeader';
 import ProfileOption from '../features/profile/ProfileOption';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="pb-16">
-      <h1 className="text-center text-2xl font-bold mt-2">Profile</h1>
+    <div className=''>
+      <h1 className="text-center text-2xl font-bold mt-2">Профиль</h1>
 
       <ProfileHeader />
 
-      <div className="mt-6">
-        <ProfileOption icon={<span>👥</span>} label="change profile info" />
-        <ProfileOption icon={<span>💳</span>} label="buy sub" />
-        <ProfileOption icon={<span>🏅</span>} label="achievements" />
-        <ProfileOption icon={<span>⚙️</span>} label="settings" />
+      <div className="mt-5 flex flex-col items-center">
+        <ProfileOption icon={<span>👥</span>} label="Изменить профиль" />
+        <ProfileOption
+          icon={<span>✅</span>}
+          label="Показать завершенные"
+          onClick={() => navigate('/completed')}
+        />
+        <ProfileOption icon={<span>💳</span>} label="Подписка" />
+        <ProfileOption icon={<span>🏅</span>} label="Достижения" />
+        <ProfileOption icon={<span>⚙️</span>} label="Настройки" />
       </div>
-      
     </div>
   );
 };

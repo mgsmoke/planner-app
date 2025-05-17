@@ -2,11 +2,12 @@ import React from 'react';
 import { useTodoStore } from '../../store/todoStore';
 import { useSelectedDateStore } from '../../store/dateStore';
 import SwipeActions from './components/SwipeActions';
-import {isSameDay, isBefore, addDays, parseISO, format} from 'date-fns';
+import { isSameDay, isBefore, addDays, parseISO, format } from 'date-fns';
 import EditTodoModal from './components/EditTodoModal';
 
 function TodoList() {
-  const { todos, toggleTodo, removeTodo } = useTodoStore();
+  const { todos, removeTodo, moveToCompleted } = useTodoStore();
+  const setTodos = useTodoStore.setState;
   const { selectedDate } = useSelectedDateStore();
   const today = new Date();
   const tomorrow = addDays(today, 1);
@@ -20,31 +21,65 @@ function TodoList() {
     if (isSameDay(todoDate, tomorrow)) return { text: 'Завтра', className: 'text-gray-400' };
     const yesterday = addDays(today, -1);
     if (isSameDay(todoDate, yesterday)) return { text: 'Вчера', className: 'text-red-500' };
-   if (isBefore(todoDate, yesterday)) return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-red-500' };
+    if (isBefore(todoDate, yesterday)) return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-red-500' };
     return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-gray-400' };
   };
 
+  const handleToggle = (id: number) => {
+  const todo = useTodoStore.getState().todos.find(t => t.id === id);
+  if (!todo) return;
 
-const renderTodoItem = (todo: typeof todos[0]) => {
-  const display = getDisplayInfo(parseDate(todo.date));
-  return (
-    <li key={todo.id} className="w-full rounded border overflow-hidden">
+  // Если сейчас не выполнено — ставим done: true и запускаем таймер
+  if (!todo.done) {
+    setTodos((state) => {
+      const updated = state.todos.map(todo =>
+        todo.id === id ? { ...todo, done: true } : todo
+      );
+      localStorage.setItem('todos', JSON.stringify(updated));
+      return { todos: updated };
+    });
+
+    setTimeout(() => {
+      // Через 3 секунды снова получаем состояние, если задача всё ещё выполнена — переносим в completed
+      const currentTodo = useTodoStore.getState().todos.find(t => t.id === id);
+      if (currentTodo?.done) {
+        moveToCompleted(id);
+      }
+    }, 3000);
+  } else {
+    // Если сейчас выполнено — снимаем отметку (done: false) и не трогаем таймер
+    setTodos((state) => {
+      const updated = state.todos.map(todo =>
+        todo.id === id ? { ...todo, done: false } : todo
+      );
+      localStorage.setItem('todos', JSON.stringify(updated));
+      return { todos: updated };
+    });
+  }
+};
+
+  const renderTodoItem = (todo: typeof todos[0]) => {
+    const display = getDisplayInfo(parseDate(todo.date));
+    return (
       <SwipeActions
         onEdit={() => setEditTodoId(todo.id)}
         onDelete={() => removeTodo(todo.id)}
       >
-        <div className="flex flex-col justify-center gap-1">
-          <span
-            onClick={() => toggleTodo(todo.id)}
-            className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
-            {todo.text}
-          </span>
-          {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
-        </div>
+        <li
+          key={todo.id}
+          onClick={() => handleToggle(todo.id)}
+          className="w-full overflow-hidden px-4 py-3 bg-gray-200 rounded-full max-h-[64px]"
+        >
+          <div className="flex flex-col justify-center">
+            <span className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
+              {todo.text}
+            </span>
+            {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
+          </div>
+        </li>
       </SwipeActions>
-    </li>
-  );
-};
+    );
+  };
 
   const filteredTodos = todos
     .map(todo => ({
@@ -53,13 +88,13 @@ const renderTodoItem = (todo: typeof todos[0]) => {
     }))
     .filter(todo => {
       if (!todo.date) {
-        return isSameDay(selectedDate, today); // без даты только для сегодня
+        return isSameDay(selectedDate, today); // без даты — только на сегодня
       }
       const { dateObj } = todo;
       if (!dateObj) return false;
       if (isSameDay(selectedDate, today)) {
         return (
-          isBefore(dateObj, today) || // просроченные
+          isBefore(dateObj, today) ||
           isSameDay(dateObj, today) ||
           isSameDay(dateObj, tomorrow)
         );

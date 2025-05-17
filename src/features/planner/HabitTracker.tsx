@@ -35,7 +35,7 @@ function HabitTracker() {
   const habitToEdit = habits.find((h) => h.id === editHabitId) || null;
 
   return (
-    <div className="p-4">
+    <div className="my-4">
       <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
       <ul className="flex flex-col gap-3 mt-4">
         {habits.map((habit) => {

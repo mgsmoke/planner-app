@@ -37,7 +37,7 @@ const CalendarPopup = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64">
+        <div className="absolute z-20 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64">
           <div className="flex justify-between items-center mb-4">
             <button onClick={prevMonth} className="p-1 rounded">
               &lt;
