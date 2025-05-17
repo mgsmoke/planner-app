@@ -13,6 +13,7 @@ type HabitStore = {
   addHabit: (name: string, color: string, icon: string) => void;
   toggleHabitDay: (habitId: string, date: string) => void;
   removeHabit: (habitId: string) => void;
+  editHabit: (id: string, name: string, color: string, icon: string) => void;
 };
 
 export const useHabitStore = create<HabitStore>((set) => ({
@@ -20,6 +21,7 @@ export const useHabitStore = create<HabitStore>((set) => ({
   addHabit: (name, color, icon) => set((state: HabitStore) => ({
   habits: [...state.habits, { id: crypto.randomUUID(), name, days: [], color, icon }]
 })),
+
   toggleHabitDay: (habitId, date) =>
     set((state: HabitStore) => ({
       habits: state.habits.map((habit) =>
@@ -33,8 +35,16 @@ export const useHabitStore = create<HabitStore>((set) => ({
           : habit
       )
     })),
+
   removeHabit: (habitId) =>
     set((state: HabitStore) => ({
       habits: state.habits.filter((habit) => habit.id !== habitId)
+    })),
+
+  editHabit: (id, name, color, icon) =>
+    set((state) => ({
+      habits: state.habits.map((habit) =>
+        habit.id === id ? { ...habit, name, color, icon } : habit
+      ),
     })),
 }));

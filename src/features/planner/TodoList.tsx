@@ -1,19 +1,16 @@
+import React from 'react';
 import { useTodoStore } from '../../store/todoStore';
 import { useSelectedDateStore } from '../../store/dateStore';
 import SwipeActions from './components/SwipeActions';
-import {
-  isSameDay,
-  isBefore,
-  addDays,
-  parseISO,
-  format,
-} from 'date-fns';
+import {isSameDay, isBefore, addDays, parseISO, format} from 'date-fns';
+import EditTodoModal from './components/EditTodoModal';
 
 function TodoList() {
   const { todos, toggleTodo, removeTodo } = useTodoStore();
   const { selectedDate } = useSelectedDateStore();
   const today = new Date();
   const tomorrow = addDays(today, 1);
+  const [editTodoId, setEditTodoId] = React.useState<number | null>(null);
 
   const parseDate = (str?: string) => (str ? parseISO(str) : undefined);
 
@@ -33,7 +30,7 @@ const renderTodoItem = (todo: typeof todos[0]) => {
   return (
     <li key={todo.id} className="w-full rounded border overflow-hidden">
       <SwipeActions
-        onEdit={() => console.log("нету!")}
+        onEdit={() => setEditTodoId(todo.id)}
         onDelete={() => removeTodo(todo.id)}
       >
         <div className="flex flex-col justify-center gap-1">
@@ -85,6 +82,13 @@ const renderTodoItem = (todo: typeof todos[0]) => {
       <ul className="flex flex-col gap-2">
         {filteredTodos.map(renderTodoItem)}
       </ul>
+
+      {editTodoId !== null && (
+        <EditTodoModal
+          todoId={editTodoId}
+          onClose={() => setEditTodoId(null)}
+        />
+      )}
     </div>
   );
 }

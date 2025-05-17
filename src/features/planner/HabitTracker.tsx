@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { useHabitStore } from '../../store/habitStore';
 import { useSelectedDateStore } from '../../store/dateStore';
 import SwipeActions from './components/SwipeActions';
+import EditHabitModal from './components/EditHabitModal';
 
 const colorMap: Record<string, string> = {
   red: 'bg-red-500 text-white border-red-500',
@@ -28,6 +30,10 @@ function HabitTracker() {
 
   const formattedDate = selectedDate.toISOString().split('T')[0];
 
+  const [editHabitId, setEditHabitId] = useState<string | null>(null);
+
+  const habitToEdit = habits.find((h) => h.id === editHabitId) || null;
+
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">Трекер привычек</h2>
@@ -42,7 +48,7 @@ function HabitTracker() {
             <SwipeActions
               key={habit.id}
               onDelete={() => removeHabit(habit.id)}
-              onEdit={() => {}}
+              onEdit={() => setEditHabitId(habit.id)}
             >
               <li
                 onClick={() => toggleHabitDay(habit.id, formattedDate)}
@@ -58,6 +64,12 @@ function HabitTracker() {
           );
         })}
       </ul>
+      {editHabitId && habitToEdit && (
+        <EditHabitModal
+          habitId={editHabitId}
+          onClose={() => setEditHabitId(null)}
+        />
+      )}
     </div>
   );
 }

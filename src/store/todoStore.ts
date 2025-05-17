@@ -12,6 +12,7 @@ type TodoStore = {
   addTodo: (text: string, date?: string) => void;
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
+  editTodo: (id: number, text: string, date?: string) => void;
 };
 
 const loadTodos = (): Todo[] => {
@@ -41,6 +42,15 @@ export const useTodoStore = create<TodoStore>((set) => ({
   removeTodo: (id) =>
     set((state) => {
       const newTodos = state.todos.filter((todo) => todo.id !== id);
+      localStorage.setItem('todos', JSON.stringify(newTodos));
+      return { todos: newTodos };
+    }),
+
+    editTodo: (id, text, date) =>
+    set((state) => {
+      const newTodos = state.todos.map((todo) =>
+        todo.id === id ? { ...todo, text, date } : todo
+      );
       localStorage.setItem('todos', JSON.stringify(newTodos));
       return { todos: newTodos };
     }),

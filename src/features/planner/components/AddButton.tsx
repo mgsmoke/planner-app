@@ -4,7 +4,7 @@ import AddHabitModal from '../components/AddHabitModal';
 import { useTodoStore } from '../../../store/todoStore';
 import { useHabitStore } from '../../../store/habitStore';
 
-function FloatingActionButton() {
+function AddButton() {
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'todo' | 'habit' | null>(null);
 
@@ -68,4 +68,4 @@ function FloatingActionButton() {
   );
 }
 
-export default FloatingActionButton;
+export default AddButton;
