@@ -6,13 +6,17 @@ const Profile = () => {
   const navigate = useNavigate();
 
   return (
-    <div className=''>
-      <h1 className="text-center text-2xl font-bold mt-2">Профиль</h1>
+    <div className="p-4">
+      <h1 className="text-center text-2xl font-bold">Профиль</h1>
 
       <ProfileHeader />
 
       <div className="mt-5 flex flex-col items-center">
-        <ProfileOption icon={<span>👥</span>} label="Изменить профиль" />
+        <ProfileOption 
+        icon={<span>👥</span>} 
+        label="Изменить профиль" 
+        onClick={() => navigate('/edit')}
+        />
         <ProfileOption
           icon={<span>✅</span>}
           label="Показать завершенные"
