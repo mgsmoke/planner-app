@@ -9,7 +9,7 @@ const EducationSection: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<'articles' | 'quizzes'>('articles');
 
   return (
-    <div className="px-4 pb-12">
+    <div className="px-4 pb-12 pt-4">
       <h2 className="text-2xl font-bold mb-6">Образовательный раздел</h2>
 
       {/* Кнопки для переключения между статьями и квизами */}

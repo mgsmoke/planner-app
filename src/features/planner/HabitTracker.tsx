@@ -50,16 +50,16 @@ function HabitTracker() {
               onDelete={() => removeHabit(habit.id)}
               onEdit={() => setEditHabitId(habit.id)}
             >
-              <li
-                onClick={() => toggleHabitDay(habit.id, formattedDate)}
-                className={`flex justify-between items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{habit.icon}</span>
-                  <span>{habit.name}</span>
-                  <span className="ml-2">🔥{habit.days.length}</span>
-                </div>
-              </li>
+            <li
+              onClick={() => toggleHabitDay(habit.id, formattedDate)}
+              className={`flex items-center p-2 rounded-full w-full transition-colors cursor-pointer ${colorClass}`}
+            >
+              <div className="flex items-center gap-2 flex-1">
+                <span className="pl-2 text-xl">{habit.icon}</span>
+                <span className="pl-2">{habit.name}</span>
+              </div>
+              <span className="ml-2">🔥{habit.days.length}</span>
+            </li>
             </SwipeActions>
           );
         })}

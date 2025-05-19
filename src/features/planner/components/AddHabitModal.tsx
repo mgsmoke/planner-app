@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { FaRunning, FaBook, FaAppleAlt, FaCoffee } from 'react-icons/fa';
 import clsx from 'clsx';
 
 const colors = ['green', 'blue', 'red', 'purple', 'yellow'];
 
 const icons = [
-  { name: 'run', icon: <FaRunning /> },
-  { name: 'book', icon: <FaBook /> },
-  { name: 'apple', icon: <FaAppleAlt /> },
-  { name: 'coffee', icon: <FaCoffee /> },
+  { name: '🏃', icon: '🏃' },
+  { name: '📖', icon: '📖' },
+  { name: '🍎', icon: '🍎' },
+  { name: '☕️', icon: '☕️' },
 ];
 
 interface AddHabitModalProps {

@@ -88,7 +88,7 @@ function TodoList() {
     }))
     .filter(todo => {
       if (!todo.date) {
-        return isSameDay(selectedDate, today); // без даты — только на сегодня
+        return isSameDay(selectedDate, today);
       }
       const { dateObj } = todo;
       if (!dateObj) return false;
