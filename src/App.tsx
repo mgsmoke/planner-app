@@ -9,14 +9,16 @@ import EditProfile from './features/profile/components/EditProfile';
 
 function App() {
   useEffect(() => {
-    if (window.Telegram?.WebApp?.expand) {
-      window.Telegram.WebApp.expand();
-    }
-  }, []);
+  if (window.Telegram?.WebApp) {
+    Telegram.WebApp.setSwipeBackAllowed(false);
+    Telegram.WebApp.setHeaderColor('secondary_bg_color');
+    Telegram.WebApp.expand(); // разворачивает мини-апп, если она была свернута
+  }
+}, []);
 
   return (
     <Router>
-      <div className="min-h-screen bg-white pt-24 pb-20">
+      <div className="min-h-screen bg-white pt-24">
         <Routes>
           <Route path="/planner" element={<Planner />} />
           <Route path="/education" element={<Education />} />

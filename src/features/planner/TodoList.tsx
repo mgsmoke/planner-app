@@ -112,7 +112,7 @@ function TodoList() {
     });
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 pb-20">
       <h2 className="text-lg font-bold mb-2">Ваши дела</h2>
       <ul className="flex flex-col gap-1">
         {filteredTodos.map(renderTodoItem)}
