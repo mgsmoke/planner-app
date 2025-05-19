@@ -16,7 +16,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-white pt-16 pb-20">
+      <div className="min-h-screen bg-white pt-24 pb-20">
         <Routes>
           <Route path="/planner" element={<Planner />} />
           <Route path="/education" element={<Education />} />

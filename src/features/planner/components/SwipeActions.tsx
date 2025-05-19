@@ -37,7 +37,7 @@ export default function SwipeableItem({ children, onEdit, onDelete }: Props) {
         drag="x"
         dragConstraints={{ left: SNAP_POINT, right: 0 }}
         dragElastic={0}
-        style={{ x }}
+        style={{ x, touchAction: 'pan-y' }}
         onDragEnd={handleDragEnd}
         animate={controls}
       >
