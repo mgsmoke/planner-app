@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 const AiButton = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hideButton, setHideButton] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastScrollTop = useRef(0);
   const lastVisibleTime = useRef(Date.now());
@@ -14,15 +15,17 @@ const AiButton = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const diff = scrollTop - lastScrollTop.current;
 
-    if (diff > 10) {
-      setIsExpanded(false);
-      setHideButton(true);
-      lastVisibleTime.current = Date.now();
-    } else if (
-      diff < -SCROLL_UP_THRESHOLD &&
-      Date.now() - lastVisibleTime.current > 300
-    ) {
-      setHideButton(false);
+    if (!isInputFocused) {
+      if (diff > 10) {
+        setIsExpanded(false);
+        setHideButton(true);
+        lastVisibleTime.current = Date.now();
+      } else if (
+        diff < -SCROLL_UP_THRESHOLD &&
+        Date.now() - lastVisibleTime.current > 300
+      ) {
+        setHideButton(false);
+      }
     }
 
     lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;
@@ -44,7 +47,7 @@ const AiButton = () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isInputFocused]);
 
   return (
     <motion.div
@@ -74,6 +77,8 @@ const AiButton = () => {
               type="text"
               placeholder="Введите текст..."
               className="flex-1 p-3 pl-4 outline-none"
+              onFocus={() => setIsInputFocused(true)}
+              onBlur={() => setIsInputFocused(false)}
             />
           </motion.div>
         ) : (
