@@ -9,10 +9,11 @@ import EditProfile from './features/profile/components/EditProfile';
 
 function App() {
   useEffect(() => {
-  if (window.Telegram?.WebApp) {
-    Telegram.WebApp.setSwipeBackAllowed(false);
-    Telegram.WebApp.setHeaderColor('secondary_bg_color');
-    Telegram.WebApp.expand(); // разворачивает мини-апп, если она была свернута
+  const tg = window.Telegram.WebApp;
+    if (window.Telegram?.WebApp) {
+    tg.setSwipeBackAllowed(false);
+    tg.setHeaderColor('secondary_bg_color');
+    tg.expand(); // разворачивает мини-апп, если она была свернута
   }
 }, []);
 
