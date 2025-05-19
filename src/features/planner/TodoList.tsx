@@ -68,7 +68,7 @@ function TodoList() {
         <li
           key={todo.id}
           onClick={() => handleToggle(todo.id)}
-          className="w-full overflow-hidden px-4 py-3 bg-gray-200 rounded-full max-h-[64px]"
+          className="w-full overflow-hidden px-4 py-2 bg-gray-200 rounded-full"
         >
           <div className="flex flex-col justify-center">
             <span className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
@@ -113,8 +113,8 @@ function TodoList() {
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-bold mb-4">Ваши дела</h2>
-      <ul className="flex flex-col gap-2">
+      <h2 className="text-lg font-bold mb-2">Ваши дела</h2>
+      <ul className="flex flex-col gap-1">
         {filteredTodos.map(renderTodoItem)}
       </ul>
 

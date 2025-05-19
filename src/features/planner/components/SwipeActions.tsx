@@ -24,11 +24,11 @@ export default function SwipeableItem({ children, onEdit, onDelete }: Props) {
   };
 
   return (
-    <div className="relative w-full h-[64px] overflow-hidden rounded bg-white">
+    <div className="relative w-full h-[48px] overflow-hidden rounded bg-white">
       {/* Кнопки сзади */}
-      <div className="absolute inset-0 flex justify-end items-center gap-2 z-0">
-        <button onClick={onEdit} className="w-12 h-12 bg-yellow-400 text-white rounded-full">✏️</button>
-        <button onClick={onDelete} className="w-12 h-12 bg-red-500 text-white rounded-full">🗑️</button>
+      <div className="absolute inset-0 flex justify-end items-center gap-4 z-0">
+        <button onClick={onEdit} className="w-10 h-10 bg-yellow-400 text-white rounded-full">✏️</button>
+        <button onClick={onDelete} className="w-10 h-10 bg-red-500 text-white rounded-full">🗑️</button>
       </div>
 
       {/* Контент, который двигается */}
