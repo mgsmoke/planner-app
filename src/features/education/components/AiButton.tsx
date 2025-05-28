@@ -9,7 +9,7 @@ const AiButton = () => {
   const lastScrollTop = useRef(0);
   const lastVisibleTime = useRef(Date.now());
 
-  const SCROLL_UP_THRESHOLD = 20;
+  const SCROLL_UP_THRESHOLD = 15;
 
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -69,7 +69,6 @@ const AiButton = () => {
             transition={{ duration: 0.3 }}
             className="flex items-center bg-white rounded-full shadow-lg overflow-hidden border"
           >
-
             <input
               autoFocus
               type="text"

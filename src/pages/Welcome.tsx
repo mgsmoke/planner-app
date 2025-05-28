@@ -6,7 +6,7 @@ function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-6rem)]">
+    <div className="flex flex-col items-center justify-center min-h-screen]">
       <div className="w-24 h-24 rounded-full bg-gray-300 overflow-hidden mb-4">
         <img src={avatar} className="w-full h-full object-cover" alt="Аватар" />
       </div>

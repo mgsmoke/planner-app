@@ -1,13 +1,12 @@
 import React from 'react';
+import { isSameDay, isBefore, addDays, parseISO, format } from 'date-fns';
 import { useTodoStore } from '../../store/todoStore';
 import { useSelectedDateStore } from '../../store/dateStore';
 import SwipeActions from './components/SwipeActions';
-import { isSameDay, isBefore, addDays, parseISO, format } from 'date-fns';
 import EditTodoModal from './components/EditTodoModal';
 
 function TodoList() {
-  const { todos, removeTodo, moveToCompleted } = useTodoStore();
-  const setTodos = useTodoStore.setState;
+  const { todos, removeTodo, } = useTodoStore();
   const { selectedDate } = useSelectedDateStore();
   const today = new Date();
   const tomorrow = addDays(today, 1);
@@ -25,59 +24,36 @@ function TodoList() {
     return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-gray-400' };
   };
 
-  const handleToggle = (id: number) => {
-  const todo = useTodoStore.getState().todos.find(t => t.id === id);
-  if (!todo) return;
+  const toggleDone = (id: number) => {
+    const store = useTodoStore.getState();
+    const todo = store.todos.find((t) => t.id === id);
 
-  // Если сейчас не выполнено — ставим done: true и запускаем таймер
-  if (!todo.done) {
-    setTodos((state) => {
-      const updated = state.todos.map(todo =>
-        todo.id === id ? { ...todo, done: true } : todo
-      );
-      localStorage.setItem('todos', JSON.stringify(updated));
-      return { todos: updated };
-    });
+    if (!todo) return;
 
-    setTimeout(() => {
-      // Через 3 секунды снова получаем состояние, если задача всё ещё выполнена — переносим в completed
-      const currentTodo = useTodoStore.getState().todos.find(t => t.id === id);
-      if (currentTodo?.done) {
-        moveToCompleted(id);
-      }
-    }, 3000);
-  } else {
-    // Если сейчас выполнено — снимаем отметку (done: false) и не трогаем таймер
-    setTodos((state) => {
-      const updated = state.todos.map(todo =>
-        todo.id === id ? { ...todo, done: false } : todo
-      );
-      localStorage.setItem('todos', JSON.stringify(updated));
-      return { todos: updated };
-    });
-  }
-};
+    if (!todo.done) {
+      store.toggleTodo(id);        // ставим done: true
+      store.moveToCompleted(id);   // сразу переносим в выполненные
+    } else {
+      store.restoreTodo(id);       // возвращаем из выполненных и делаем done: false
+    }
+  };
 
   const renderTodoItem = (todo: typeof todos[0]) => {
     const display = getDisplayInfo(parseDate(todo.date));
     return (
-      <SwipeActions
-        onEdit={() => setEditTodoId(todo.id)}
-        onDelete={() => removeTodo(todo.id)}
-      >
-        <li
-          key={todo.id}
-          onClick={() => handleToggle(todo.id)}
-          className="w-full overflow-hidden p-4 bg-gray-200 rounded-full cursor-pointer"
+        <SwipeActions
+          onEdit={() => setEditTodoId(todo.id)}
+          onDelete={() => removeTodo(todo.id)}
+          onComplete={() => toggleDone(todo.id)}
+          enableSwipeRight={true}
         >
-          <div className="flex flex-col justify-center">
-            <span className={todo.done ? 'line-through text-gray-400 text-base' : 'text-base'}>
+          <li className="w-full overflow-hidden p-4 bg-gray-200 rounded-full cursor-pointer">
+            <div className="flex flex-col justify-center">      
               {todo.text}
-            </span>
-            {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
-          </div>
-        </li>
-      </SwipeActions>
+              {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
+            </div>
+          </li>
+        </SwipeActions>
     );
   };
 
@@ -109,7 +85,7 @@ function TodoList() {
       if (aIsPast && !bIsPast) return -1;
       if (!aIsPast && bIsPast) return 1;
       return aDate.getTime() - bDate.getTime();
-    });
+  });
 
   return (
     <div className="pb-20">

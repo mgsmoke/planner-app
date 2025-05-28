@@ -49,6 +49,7 @@ function HabitTracker() {
               key={habit.id}
               onDelete={() => removeHabit(habit.id)}
               onEdit={() => setEditHabitId(habit.id)}
+              enableSwipeRight={false}
             >
             <li
               onClick={() => toggleHabitDay(habit.id, formattedDate)}

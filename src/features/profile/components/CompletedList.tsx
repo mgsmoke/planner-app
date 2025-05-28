@@ -5,16 +5,16 @@ function CompletedList() {
 
   return (
     <div className="mb-6">
-      <h2 className="text-lg font-bold pl-4 pb-4">Выполненные задачи</h2>
+      <h2 className="text-lg font-bold pl-4">Выполненные задачи</h2>
       {completed.length === 0 ? (
-        <p className="text-gray-500 pl-4">Нет выполненных задач</p>
+        <p className="text-gray-500 pl-4 pt-4">Нет выполненных задач</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2 p-4">
           {completed.map(todo => (
             <li
               onClick={() => restoreTodo(todo.id)}
               key={todo.id}
-              className="flex items-center justify-between bg-gray-200 rounded-full px-4 py-3 max-h-[64px] cursor-pointer"
+              className="flex items-center justify-between bg-gray-200 rounded-full px-4 py-3 max-h-[48px] cursor-pointer"
             >
               <span
                 className="text-base"
