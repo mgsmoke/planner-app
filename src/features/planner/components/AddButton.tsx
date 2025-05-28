@@ -96,7 +96,7 @@ function AddButton() {
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ delay: 0.3 }}
                 >
                   Добавить задачу
                 </motion.span>          
@@ -111,7 +111,7 @@ function AddButton() {
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ delay: 0.3 }}
                 >
                   Добавить привычку
                 </motion.span>

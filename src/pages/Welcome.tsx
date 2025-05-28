@@ -6,11 +6,11 @@ function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen]">
-      <div className="w-24 h-24 rounded-full bg-gray-300 overflow-hidden mb-4">
+    <div className="flex flex-col items-center justify-center min-h-screen] pt-24">
+      <div className="w-28 h-28 rounded-full bg-gray-300 overflow-hidden mb-4">
         <img src={avatar} className="w-full h-full object-cover" alt="Аватар" />
       </div>
-      <h1 className="text-2xl font-semibold mb-80">Добро пожаловать, {name}!</h1>
+      <h1 className="text-2xl font-semibold mb-60">Добро пожаловать, {name}!</h1>
       <button 
         className="px-6 py-3 bg-blue-500 text-white rounded-lg text-xl shadow-lg" 
         onClick={() => navigate('/planner')}
