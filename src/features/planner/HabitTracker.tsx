@@ -36,7 +36,7 @@ function HabitTracker() {
 
   return (
     <div className="my-4">
-      <h2 className="text-lg font-bold mb-4">Ваши привычки</h2>
+      <h2 className="text-lg font-bold mb-4">Привычки</h2>
       <ul className="flex flex-col gap-3">
         {habits.map((habit) => {
           const isActive = habit.days.includes(formattedDate);

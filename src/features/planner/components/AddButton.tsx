@@ -9,6 +9,7 @@ function AddButton() {
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'todo' | 'habit' | null>(null);
   const [hideButton, setHideButton] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastScrollTop = useRef(0);
   const lastVisibleTime = useRef(Date.now());
@@ -30,7 +31,7 @@ function AddButton() {
       const diff = scrollTop - lastScrollTop.current;
 
       if (diff > 10) {
-        setOpen(false);
+        handleClose();
         setHideButton(true);
         lastVisibleTime.current = Date.now();
       } else if (diff < -15 && Date.now() - lastVisibleTime.current > 300) {
@@ -49,7 +50,7 @@ function AddButton() {
       containerRef.current &&
       !containerRef.current.contains(e.target as Node)
     ) {
-      setOpen(false);
+      handleClose();
     }
   };
 
@@ -57,6 +58,16 @@ function AddButton() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleClose = () => {
+    if (!open) return;
+    
+    setIsClosing(true);
+    setTimeout(() => {
+      setOpen(false);
+      setIsClosing(false);
+    }, 200); // Время должно быть меньше чем duration анимации сворачивания (300ms)
+  };
 
   return (
     <>
@@ -88,30 +99,44 @@ function AddButton() {
             >
               <button
                 onClick={() => {
-                  setOpen(false);
+                  handleClose();
                   setModalType('todo');
                 }}
                 className="px-4 py-2 bg-blue-500 text-white rounded text-base shadow h-[40px]"
               >
                 <motion.span
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
+                  animate={{ 
+                    opacity: isClosing ? 0 : 1,
+                    transition: { 
+                      opacity: { 
+                        delay: isClosing ? 0 : 0.3,
+                        duration: 0.2 
+                      } 
+                    }
+                  }}
                 >
                   Добавить задачу
                 </motion.span>          
               </button>
               <button
                 onClick={() => {
-                  setOpen(false);
+                  handleClose();
                   setModalType('habit');
                 }}
                 className="px-4 py-2 bg-green-500 text-white rounded text-base shadow h-[40px]"
               >
                 <motion.span
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
+                  animate={{ 
+                    opacity: isClosing ? 0 : 1,
+                    transition: { 
+                      opacity: { 
+                        delay: isClosing ? 0 : 0.3,
+                        duration: 0.2 
+                      } 
+                    }
+                  }}
                 >
                   Добавить привычку
                 </motion.span>

@@ -31,10 +31,10 @@ function TodoList() {
     if (!todo) return;
 
     if (!todo.done) {
-      store.toggleTodo(id);        // ставим done: true
-      store.moveToCompleted(id);   // сразу переносим в выполненные
+      store.toggleTodo(id);
+      store.moveToCompleted(id);
     } else {
-      store.restoreTodo(id);       // возвращаем из выполненных и делаем done: false
+      store.restoreTodo(id);
     }
   };
 
@@ -89,7 +89,7 @@ function TodoList() {
 
   return (
     <div className="pb-20">
-      <h2 className="text-lg font-bold mb-4">Ваши дела</h2>
+      <h2 className="text-lg font-bold mb-4">Напоминания</h2>
       <ul className="flex flex-col gap-3">
         {filteredTodos.map(renderTodoItem)}
       </ul>
