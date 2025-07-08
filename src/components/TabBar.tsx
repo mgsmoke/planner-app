@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 const tabs = [
   { path: '/planner', label: 'Планер', icon: {inactive: 'img/list-off.png', active: 'img/list-on.png'} },
   { path: '/education', label: 'Образование', icon: {inactive: 'img/education-off.png', active: 'img/education-on.png'} },
-  { path: '/profile', label: 'Профиль', icon: {inactive: '/img/user-off.png', active: 'img/user-on.png'} },
+  { path: '/profile', label: 'Профиль', icon: {inactive: './img/user-off.png', active: 'img/user-on.png'} },
 ];
 
 function TabBar() {
