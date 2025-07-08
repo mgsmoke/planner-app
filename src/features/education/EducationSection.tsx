@@ -12,7 +12,6 @@ const EducationSection: React.FC = () => {
     <div className="px-4 pb-20">
       <h2 className="text-2xl font-bold mb-4">Образовательный раздел</h2>
 
-      {/* Кнопки для переключения между статьями и квизами */}
       <div className="flex gap-4 mb-6">
         <button
           onClick={() => setSelectedSection('articles')}
@@ -28,7 +27,6 @@ const EducationSection: React.FC = () => {
         </button>
       </div>
 
-      {/* Контент, который меняется в зависимости от выбранной секции */}
       <div className="mb-4">
         {selectedSection === 'articles' && (
           <div className="grid grid-cols-1 gap-4">

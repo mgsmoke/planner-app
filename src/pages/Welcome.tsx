@@ -10,7 +10,7 @@ function Welcome() {
       <div className="w-28 h-28 rounded-full bg-gray-300 overflow-hidden mb-4 ">
         <img src={avatar} className="w-full h-full object-cover" alt="" />
       </div>
-      <h1 className="text-2xl font-semibold mb-60">Добро пожаловать, {name}!</h1>
+      <h1 className="text-2xl font-semibold mb-60 text-center">Добро пожаловать, {name}!</h1>
       <button 
         className="px-6 py-3 bg-[#6563ff] text-white rounded-lg text-xl shadow-lg" 
         onClick={() => navigate('/planner')}
