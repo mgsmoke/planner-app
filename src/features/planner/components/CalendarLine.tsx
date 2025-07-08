@@ -30,10 +30,10 @@ const CalendarLine: React.FC<CalendarLineProps> = ({ daysToShow = 7 }) => {
                 ${
                   isSelected
                     ? isToday(date)
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-blue-500 text-white'
+                      ? 'bg-[#6563ff] text-white'
+                      : 'bg-[#6563ff] text-white'
                     : isToday(date)
-                      ? 'bg-blue-100 border border-blue-300'
+                      ? 'bg-[#e0e0ff] border border-[#a6a5ff]'
                       : 'border border-gray-200'
                 }
               `}

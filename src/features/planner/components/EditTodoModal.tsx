@@ -40,7 +40,6 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todoId, onClose }) => {
           onChange={(e) => setText(e.target.value)}
         />
 
-        <label className="block font-medium mb-1">Дата (необязательно):</label>
         <input
           type="date"
           className="w-full border rounded p-2"
@@ -50,7 +49,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ todoId, onClose }) => {
 
         <div className="flex justify-end gap-2">
           <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Отмена</button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+          <button onClick={handleSubmit} className="px-4 py-2 bg-[#6563ff] text-white rounded">Сохранить</button>
         </div>
       </div>
     </div>

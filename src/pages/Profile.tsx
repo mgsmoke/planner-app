@@ -10,20 +10,21 @@ const Profile = () => {
 
       <ProfileHeader />
 
-      <div className="mt-5 flex flex-col items-center">
+      <div className="mt-5 flex flex-col gap-3">
         <ProfileOption 
-        icon={<span>👥</span>} 
+        icon={<img src="img/edit-profile.png"></img>} 
         label="Изменить профиль" 
-        onClick={() => navigate('/edit')}
+        onClick={() => navigate('/profile/edit')}
         />
+
         <ProfileOption
-          icon={<span>✅</span>}
+          icon={<img src="img/completed.png"></img>}
           label="Показать завершенные"
-          onClick={() => navigate('/completed')}
+          onClick={() => navigate('/profile/completed')}
         />
-        <ProfileOption icon={<span>💳</span>} label="Подписка" />
-        <ProfileOption icon={<span>🏅</span>} label="Достижения" />
-        <ProfileOption icon={<span>⚙️</span>} label="Настройки" />
+
+        <ProfileOption icon={<img src="img/subscription.png"></img>} label="Подписка" />
+        <ProfileOption icon={<img src="img/settings.png"></img>} label="Настройки" />
       </div>
     </div>
   );

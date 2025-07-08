@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AddTodoModal from '../components/AddTodoModal';
 import AddHabitModal from '../components/AddHabitModal';
@@ -25,6 +25,33 @@ function AddButton() {
     addHabit(name, color, icon);
   };
 
+  const handleClose = useCallback(() => {
+    if (!open) return;
+
+    setIsClosing(true);
+    setTimeout(() => {
+      setOpen(false);
+      setIsClosing(false);
+    }, 200);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [open, handleClose]);
+
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -43,31 +70,7 @@ function AddButton() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(e.target as Node)
-    ) {
-      handleClose();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleClose = () => {
-    if (!open) return;
-    
-    setIsClosing(true);
-    setTimeout(() => {
-      setOpen(false);
-      setIsClosing(false);
-    }, 200); // Время должно быть меньше чем duration анимации сворачивания (300ms)
-  };
+  }, [handleClose]);
 
   return (
     <>
@@ -102,7 +105,7 @@ function AddButton() {
                   handleClose();
                   setModalType('todo');
                 }}
-                className="px-4 py-2 bg-blue-500 text-white rounded text-base shadow h-[40px]"
+                className="px-4 py-2 bg-[#6563ff] text-white rounded text-base shadow h-[40px]"
               >
                 <motion.span
                   initial={{ opacity: 0 }}
@@ -150,9 +153,9 @@ function AddButton() {
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setOpen(true)}
-              className="w-12 h-12 rounded-full bg-blue-600 text-white text-3xl flex items-center justify-center shadow-lg"
+              className="w-12 h-12 rounded-full bg-[#6563ff] flex items-center justify-center shadow-lg"
             >
-              +
+              <img src="img/plus.png" className="h-6 w-6"></img>
             </motion.button>
           )}
         </AnimatePresence>

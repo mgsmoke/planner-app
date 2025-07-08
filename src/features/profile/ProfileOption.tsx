@@ -1,18 +1,18 @@
 type Props = {
   icon: React.ReactNode;
   label: string;
-  onClick?: () => void; // необязательный обработчик клика
+  onClick?: () => void;
 };
 
 const ProfileOption = ({ icon, label, onClick }: Props) => {
   return (
     <button
       type="button"
-      className="flex items-center justify-center gap-4 py-3 px-4 text-left"
+      className="flex gap-4 py-2 px-4 text-left items-center"
       onClick={onClick}
     >
-      <div className="text-xl">{icon}</div>
-      <span className="text-base">{label}</span>
+      <div className="w-6">{icon}</div>
+      <span className="text-lg">{label}</span>
     </button>
   );
 };

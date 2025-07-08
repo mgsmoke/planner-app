@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-const colors = ['green', 'blue', 'red', 'purple', 'yellow'];
+const colors = ['green', 'blue', 'gray', 'purple', 'yellow'];
 
 const icons = [
   { name: '🏃', icon: '🏃' },
@@ -56,13 +56,13 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
 
         <div>
           <p className="font-medium mb-1">Иконка:</p>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             {icons.map(({ name, icon }) => (
               <button
                 key={name}
                 onClick={() => setSelectedIcon(name)}
                 className={clsx(
-                  'p-2 border rounded-full text-xl',
+                  'p-2 border rounded-full text-xl h-11 w-11 flex justify-center items-center',
                   selectedIcon === name ? 'border-black' : 'border-gray-300'
                 )}
               >
@@ -78,7 +78,7 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-[#6563ff] text-white rounded"
           >
             Добавить
           </button>

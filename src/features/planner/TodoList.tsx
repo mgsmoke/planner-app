@@ -4,6 +4,7 @@ import { useTodoStore } from '../../store/todoStore';
 import { useSelectedDateStore } from '../../store/dateStore';
 import SwipeActions from './components/SwipeActions';
 import EditTodoModal from './components/EditTodoModal';
+import { useRef } from 'react';
 
 function TodoList() {
   const { todos, removeTodo, } = useTodoStore();
@@ -16,27 +17,43 @@ function TodoList() {
 
   const getDisplayInfo = (todoDate?: Date) => {
     if (!todoDate) return null;
-    if (isSameDay(todoDate, today)) return { text: 'Сегодня', className: 'text-blue-500' };
-    if (isSameDay(todoDate, tomorrow)) return { text: 'Завтра', className: 'text-gray-400' };
+    if (isSameDay(todoDate, today)) return { text: 'Сегодня', className: 'text-blue-500 text-xs' };
+    if (isSameDay(todoDate, tomorrow)) return { text: 'Завтра', className: 'text-gray-500 text-xs' };
     const yesterday = addDays(today, -1);
-    if (isSameDay(todoDate, yesterday)) return { text: 'Вчера', className: 'text-red-500' };
-    if (isBefore(todoDate, yesterday)) return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-red-500' };
-    return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-gray-400' };
+    if (isSameDay(todoDate, yesterday)) return { text: 'Вчера', className: 'text-red-500 text-xs' };
+    if (isBefore(todoDate, yesterday)) return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-red-500 text-xs' };
+    return { text: format(todoDate, 'dd.MM.yyyy'), className: 'text-gray-400 text-xs' };
   };
+
+  const pendingIdsRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
 
   const toggleDone = (id: number) => {
     const store = useTodoStore.getState();
     const todo = store.todos.find((t) => t.id === id);
-
     if (!todo) return;
 
+    const timeout = pendingIdsRef.current.get(id);
+
+    if (timeout) {
+      clearTimeout(timeout);
+      pendingIdsRef.current.delete(id);
+      store.toggleTodo(id); // вернёт done в false
+      return;
+    }
+
     if (!todo.done) {
-      store.toggleTodo(id);
-      store.moveToCompleted(id);
+      store.toggleTodo(id); // done: true
+      const t = setTimeout(() => {
+        store.moveToCompleted(id);
+        pendingIdsRef.current.delete(id);
+      }, 2500);
+      pendingIdsRef.current.set(id, t);
     } else {
+      // если вдруг уже в completed
       store.restoreTodo(id);
     }
   };
+
 
   const renderTodoItem = (todo: typeof todos[0]) => {
     const display = getDisplayInfo(parseDate(todo.date));
@@ -45,12 +62,24 @@ function TodoList() {
           onEdit={() => setEditTodoId(todo.id)}
           onDelete={() => removeTodo(todo.id)}
           onComplete={() => toggleDone(todo.id)}
-          enableSwipeRight={true}
         >
-          <li className="w-full overflow-hidden p-4 bg-gray-200 rounded-full cursor-pointer">
-            <div className="flex flex-col justify-center">      
-              {todo.text}
-              {display && <span className={`text-xs ${display.className}`}>{display.text}</span>}
+          <img 
+          src={todo.done ? 'img/check-circle.png' : 'img/circle.png'}
+          className="w-10 h-10 cursor-pointer mr-2"></img>
+          <li 
+          className={`w-full h-11 overflow-hidden rounded-full cursor-pointer flex p-4 ${
+            todo.done ? 'bg-[#e0e0ff]' : 'bg-gray-200'
+          }`}
+          >
+            <div className="flex flex-col justify-center">
+              <span className={todo.done ? 'text-gray-500' : ''}>
+                {todo.text}
+              </span>
+              {display && (
+                <span className={todo.done ? 'text-gray-500 text-xs' : `${display.className}`}>
+                  {display.text}
+                </span>
+              )}
             </div>
           </li>
         </SwipeActions>
@@ -90,15 +119,25 @@ function TodoList() {
   return (
     <div className="pb-20">
       <h2 className="text-lg font-bold mb-4">Напоминания</h2>
-      <ul className="flex flex-col gap-3">
-        {filteredTodos.map(renderTodoItem)}
-      </ul>
-
-      {editTodoId !== null && (
-        <EditTodoModal
-          todoId={editTodoId}
-          onClose={() => setEditTodoId(null)}
-        />
+      {todos.length === 0 ? (
+        <p className="text-gray-500 text-center">Нет запланированных дел</p>
+      ) : (
+        <div>
+          
+          <ul className="flex flex-col gap-3">
+            {filteredTodos.map((todo) => (
+              <React.Fragment key={todo.id}>
+                {renderTodoItem(todo)}
+              </React.Fragment>
+            ))}
+          </ul>
+          {editTodoId !== null && (
+            <EditTodoModal
+              todoId={editTodoId}
+              onClose={() => setEditTodoId(null)}
+            />
+          )}
+        </div>
       )}
     </div>
   );

@@ -33,14 +33,14 @@ const EditProfile = () => {
             if (file) {
               const reader = new FileReader();
               reader.onload = () => {
-                setNewAvatar(reader.result as string); // base64
+                setNewAvatar(reader.result as string);
               };
               reader.readAsDataURL(file);
             }
           }}
         />
 
-        <label htmlFor="avatarInput" className="text-blue-500 cursor-pointer">
+        <label htmlFor="avatarInput" className="text-[#6563ff] cursor-pointer">
           Изменить фото
         </label>
 
@@ -56,18 +56,18 @@ const EditProfile = () => {
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium mb-1">Имя</label>
+        <label className="block text-sm font-medium mb-1 ml-1">Имя</label>
         <input
           type="text"
           placeholder="Ваше имя"
-          className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-[#6563ff]"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
       </div>
 
       <button
-        className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium text-lg"
+        className="w-full bg-[#6563ff] text-white py-3 rounded-lg font-medium text-lg"
         onClick={handleSave}
       >
         Сохранить

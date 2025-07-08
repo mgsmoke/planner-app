@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type Habit = {
   id: string;
@@ -16,35 +17,43 @@ type HabitStore = {
   editHabit: (id: string, name: string, color: string, icon: string) => void;
 };
 
-export const useHabitStore = create<HabitStore>((set) => ({
-  habits: [],
-  addHabit: (name, color, icon) => set((state: HabitStore) => ({
-  habits: [...state.habits, { id: crypto.randomUUID(), name, days: [], color, icon }]
-})),
+export const useHabitStore = create<HabitStore>()(
+  persist(
+    (set) => ({
+      habits: [],
+      addHabit: (name, color, icon) =>
+        set((state) => ({
+          habits: [...state.habits, { id: crypto.randomUUID(), name, days: [], color, icon }],
+        })),
 
-  toggleHabitDay: (habitId, date) =>
-    set((state: HabitStore) => ({
-      habits: state.habits.map((habit) =>
-        habit.id === habitId
-          ? {
-              ...habit,
-              days: habit.days.includes(date)
-                ? habit.days.filter((d) => d !== date)
-                : [...habit.days, date]
-            }
-          : habit
-      )
-    })),
+      toggleHabitDay: (habitId, date) =>
+        set((state) => ({
+          habits: state.habits.map((habit) =>
+            habit.id === habitId
+              ? {
+                  ...habit,
+                  days: habit.days.includes(date)
+                    ? habit.days.filter((d) => d !== date)
+                    : [...habit.days, date],
+                }
+              : habit
+          ),
+        })),
 
-  removeHabit: (habitId) =>
-    set((state: HabitStore) => ({
-      habits: state.habits.filter((habit) => habit.id !== habitId)
-    })),
+      removeHabit: (habitId) =>
+        set((state) => ({
+          habits: state.habits.filter((habit) => habit.id !== habitId),
+        })),
 
-  editHabit: (id, name, color, icon) =>
-    set((state) => ({
-      habits: state.habits.map((habit) =>
-        habit.id === id ? { ...habit, name, color, icon } : habit
-      ),
-    })),
-}));
+      editHabit: (id, name, color, icon) =>
+        set((state) => ({
+          habits: state.habits.map((habit) =>
+            habit.id === id ? { ...habit, name, color, icon } : habit
+          ),
+        })),
+    }),
+    {
+      name: 'habit-storage',
+    }
+  )
+);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { useHabitStore } from '../../../store/habitStore';
 
-const colors = ['green', 'blue', 'red', 'purple', 'yellow'];
+const colors = ['green', 'blue', 'gray', 'purple', 'yellow'];
 
 const icons = [
   { name: '🏃', icon: '🏃' },
@@ -77,7 +77,7 @@ const EditHabitModal: React.FC<EditHabitModalProps> = ({ habitId, onClose }) => 
                 key={name}
                 onClick={() => setSelectedIcon(name)}
                 className={clsx(
-                  'p-2 border rounded-full text-xl',
+                  'p-2 border rounded-full text-xl h-11 w-11 flex justify-center items-center',
                   selectedIcon === name ? 'border-black' : 'border-gray-300'
                 )}
               >
@@ -89,7 +89,7 @@ const EditHabitModal: React.FC<EditHabitModalProps> = ({ habitId, onClose }) => 
 
         <div className="flex justify-end gap-2">
           <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Отмена</button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+          <button onClick={handleSubmit} className="px-4 py-2 bg-[#6563ff] text-white rounded">Сохранить</button>
         </div>
       </div>
     </div>

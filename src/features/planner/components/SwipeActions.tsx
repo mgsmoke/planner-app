@@ -6,44 +6,21 @@ type Props = {
   onEdit?: () => void;
   onDelete?: () => void;
   onComplete?: () => void;
-  enableSwipeRight?: boolean;
 };
 
 export default function SwipeableItem({
   children,
   onEdit,
   onDelete,
-  enableSwipeRight = true,
   onComplete
 }: Props) {
   const x = useMotionValue(0);
   const controls = useAnimation();
-  const [isCompleting, setIsCompleting] = useState(false);
   const [isLeftOpen, setIsLeftOpen] = useState(false);
   
   // Константы для точек свайпа
-  const SNAP_POINT_LEFT = -110;
-  const SNAP_POINT_RIGHT = 60;
-  const SWIPE_THRESHOLD = 0.7; // Порог срабатывания (50%)
-
-  // Анимация заполнения круга
-  const circumference = 2 * Math.PI * 19; // 2πr
-  const dashOffset = useMotionValue(circumference);
-
-  // Обновление анимации круга при движении
-  useEffect(() => {
-    const unsubscribe = x.onChange(value => {
-      if (!enableSwipeRight || value < 0) return;
-      
-      // Рассчитываем прогресс свайпа вправо (0-100%)
-      const progress = Math.min(100, (value / SNAP_POINT_RIGHT) * 100);
-      
-      // Обновляем отступ для эффекта заполнения
-      dashOffset.set(circumference - (circumference * progress) / 100);
-    });
-
-    return () => unsubscribe();
-  }, [x, enableSwipeRight, SNAP_POINT_RIGHT, circumference, dashOffset]);
+  const SNAP_POINT_LEFT = -100;
+  const SWIPE_THRESHOLD = 0.3; // Порог срабатывания (30%)
 
   // Обработчик завершения перетаскивания
   const handleDragEnd = useCallback(async () => {
@@ -57,25 +34,6 @@ export default function SwipeableItem({
       });
       setIsLeftOpen(true);
     } 
-    // Свайп вправо
-    else if (enableSwipeRight && currentX >= SNAP_POINT_RIGHT * SWIPE_THRESHOLD) {
-      setIsCompleting(true);
-      await controls.start({ 
-        x: SNAP_POINT_RIGHT, 
-        transition: { duration: 0.2 } 
-      });
-      
-      // Анимация успешного завершения
-      await controls.start({ 
-        x: 400, 
-        transition: { duration: 0.4, ease: "easeIn" } 
-      });
-      
-      onComplete?.();
-      await controls.start({ x: 0 }, { duration: 0 });
-      setIsCompleting(false);
-      setIsLeftOpen(false);
-    }
     // Возврат в исходное положение
     else {
       await controls.start({ 
@@ -84,7 +42,7 @@ export default function SwipeableItem({
       });
       setIsLeftOpen(false);
     }
-  }, [x, controls, enableSwipeRight, onComplete]);
+  }, [x, controls, onComplete]);
 
   // Автоматическое закрытие при клике снаружи
   useEffect(() => {
@@ -104,68 +62,39 @@ export default function SwipeableItem({
 
   return (
     <div className="relative w-full h-[48px] overflow-hidden">
-      {/* Кнопки действий (слева) */}
-      {!isCompleting && (
+      {
         <motion.div 
-          className="absolute inset-0 flex justify-end items-center gap-3"
+          className="absolute inset-0 flex justify-end items-center gap-3 right-0.5"
         >
           <button 
             onClick={onEdit} 
-            className="w-11 h-11 bg-yellow-400 text-white rounded-full flex items-center justify-center shadow-md"
+            className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center"
             aria-label="Редактировать"
           >
-            ✏️
+            <img src="img/edit.png" className="w-6"></img>
           </button>
           <button 
             onClick={onDelete} 
-            className="w-11 h-11 bg-red-500 text-white rounded-full flex items-center justify-center shadow-md"
+            className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center"
             aria-label="Удалить"
           >
-            🗑️
+            <img src="img/delete.png" className="w-6"></img>
           </button>
         </motion.div>
-      )}
+      }
 
-      {/* Индикатор завершения (справа) */}
-      {enableSwipeRight && (
-        <div className="absolute inset-0 flex justify-start items-center w-11 pl-1">
-          <svg width="44" height="44" viewBox="0 0 44 44">
-            <motion.circle
-              cx="22"
-              cy="22"
-              r="19"
-              stroke="#e0e0e0"
-              strokeWidth="4"
-              fill="none"
-            />
-            <motion.circle
-              cx="22"
-              cy="22"
-              r="19"
-              stroke="#4CAF50"
-              strokeWidth="4"
-              strokeDasharray={circumference}
-              style={{ strokeDashoffset: dashOffset }}
-              transform="rotate(-90 22 22)"
-              fill="none"
-            />
-          </svg>
-        </div>
-      )}
-
-      {/* Перемещаемый контент */}
       <motion.div
-        className="swipeable-content absolute inset-0 z-10 flex items-center bg-white rounded-full overflow-hidden shadow-sm"
+        className="swipeable-content absolute inset-0 z-10 flex items-center overflow-hidden rounded-full bg-white"
         drag="x"
         dragConstraints={{ 
           left: isLeftOpen ? SNAP_POINT_LEFT : Math.min(SNAP_POINT_LEFT, 0),
-          right: enableSwipeRight ? SNAP_POINT_RIGHT : 0
+          right: 0,
         }}
         dragElastic={0.1}
         style={{ x }}
         onDragEnd={handleDragEnd}
         animate={controls}
-        whileTap={{ scale: 0.98 }}
+        onClick={onComplete}
       >
         {children}
       </motion.div>

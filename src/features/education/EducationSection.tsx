@@ -16,13 +16,13 @@ const EducationSection: React.FC = () => {
       <div className="flex gap-4 mb-6">
         <button
           onClick={() => setSelectedSection('articles')}
-          className={`w-full py-2 rounded-md ${selectedSection === 'articles' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`w-full py-2 rounded-md ${selectedSection === 'articles' ? 'bg-[#6563ff] text-white' : 'bg-gray-300'}`}
         >
           Статьи
         </button>
         <button
           onClick={() => setSelectedSection('quizzes')}
-          className={`w-full py-2 rounded-md ${selectedSection === 'quizzes' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`w-full py-2 rounded-md ${selectedSection === 'quizzes' ? 'bg-[#6563ff] text-white' : 'bg-gray-300'}`}
         >
           Квизы
         </button>
@@ -40,8 +40,8 @@ const EducationSection: React.FC = () => {
         )}
 
         {selectedSection === 'quizzes' && (
-          <div className="grid grid-cols-1 gap-6">
-            <h3 className="font-semibold text-xl mb-4">Квизы</h3>
+          <div className="grid grid-cols-1 gap-4">
+            <h3 className="font-semibold text-xl">Квизы</h3>
             {quizzes.map((quiz: Quiz, index: number) => (
               <QuizCard key={index} quiz={quiz} />
             ))}

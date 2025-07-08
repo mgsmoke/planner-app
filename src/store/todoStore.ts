@@ -52,7 +52,7 @@ export const useTodoStore = create<TodoStore>((set) => ({
     const newTodos = state.todos.filter((todo) => todo.id !== id);
     const newCompleted = state.completed.filter((todo) => todo.id !== id);
     save('todos', newTodos);
-    save('completed', newCompleted);
+    save('completedTodos', newCompleted);
     return { todos: newTodos, completed: newCompleted };
   }),
 

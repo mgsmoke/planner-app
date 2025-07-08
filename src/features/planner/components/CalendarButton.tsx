@@ -31,22 +31,22 @@ const CalendarButton = () => {
     <div className="relative">
       <button
         onClick={toggleCalendar}
-        className="items-center justify-center w-12 h-12 rounded-full border border-gray-200"
+        className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200"
       >
-        <span>📅</span>
+        <img src="img/calendar.png" className="h-8 w-8"></img>
       </button>
 
       {isOpen && (
-        <div className="absolute z-20 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-64">
+        <div className="absolute z-20 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-2 w-64">
           <div className="flex justify-between items-center mb-4">
-            <button onClick={prevMonth} className="p-1 rounded">
-              &lt;
+            <button onClick={prevMonth}>
+              <img src="img/back-arrow.png" className="h-9"></img>
             </button>
             <span className="font-semibold">
               {format(currentMonth, 'LLLL yyyy', { locale: ru })}
             </span>
-            <button onClick={nextMonth} className="p-1 rounded">
-              &gt;
+            <button onClick={nextMonth}>
+              <img src="img/arrow.png" className="h-9"></img>
             </button>
           </div>
 
@@ -72,10 +72,10 @@ const CalendarButton = () => {
                   key={day.toString()}
                   onClick={() => selectDate(day)}
                   className={`
-                    h-8 rounded-full text-sm
-                    ${isSelected ? 'bg-blue-500 text-white border-blue-500' : ''}
+                    h-7 w-7 rounded-full text-sm
+                    ${isSelected ? 'bg-[#6563ff] text-white border-[#6563ff]' : ''}
                     ${!isCurrentMonth ? 'text-gray-400' : ''}
-                    ${isSameDay(day, new Date()) ? 'border border-blue-300 bg-blue-100' : ''}
+                    ${isSameDay(day, new Date()) ? 'border border-[#6563ff]' : ''}
                   `}
                   disabled={!isCurrentMonth}
                 >

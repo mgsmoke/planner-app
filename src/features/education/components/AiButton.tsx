@@ -86,9 +86,9 @@ const AiButton = () => {
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setIsExpanded(true)}
-            className="w-12 h-12 rounded-full bg-blue-600 text-white text-xl flex items-center justify-center shadow-lg"
+            className="w-12 h-12 rounded-full bg-[#6563ff] flex items-center justify-center shadow-lg"
           >
-            🔎
+            <img src="img/search.png" className="h-6 w-6"></img>
           </motion.button>
         )}
       </AnimatePresence>

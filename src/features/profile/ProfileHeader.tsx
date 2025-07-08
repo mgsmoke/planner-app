@@ -5,10 +5,10 @@ const ProfileHeader = () => {
 
   return (
     <div className="text-center">
-      <h1 className="text-3xl font-semibold">{name}</h1>
-      <div className="w-24 h-24 rounded-full bg-gray-300 overflow-hidden mt-4 mx-auto">
+      <div className="w-24 h-24 rounded-full bg-gray-300 overflow-hidden mx-auto">
         <img src={avatar} className="w-full h-full object-cover" />
       </div>
+      <h1 className="text-3xl font-semibold mt-4">{name}</h1>
     </div>
   );
 };

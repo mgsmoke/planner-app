@@ -19,8 +19,8 @@ function AppContent() {
         <Route path="/planner" element={<Planner />} />
         <Route path="/education" element={<Education />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/completed" element={<CompletedList />} />
-        <Route path="/edit" element={<EditProfile />} />
+        <Route path="/profile/completed" element={<CompletedList />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
       </Routes>
       {!isWelcomePage && <TabBar />}
     </div>
