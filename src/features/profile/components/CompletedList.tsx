@@ -34,7 +34,7 @@ function CompletedList() {
                   onClick={() => removeTodo(todo.id)}
                   className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shrink-0"
                 >
-                  <img src="img/delete.png" className="w-6" />
+                  <img src="/planner-app/img/delete.png" className="w-6" />
                 </button>
               </div>
             </React.Fragment>
