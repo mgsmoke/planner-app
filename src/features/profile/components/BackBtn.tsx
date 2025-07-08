@@ -8,7 +8,7 @@ const BackBtn = () => {
         className="flex ml-1 mb-4"
         onClick={() => navigate('/profile')}
         >
-        <img src="../img/back.png" className="w-7 h-7"></img>
+        <img src="/planner-app/img/back.png" className="w-7 h-7"></img>
         <p className="text-xl text-[#6563ff]">Назад</p>
         </button>
     )
