@@ -10,7 +10,7 @@ function TabBar() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 z-30">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around pb-4 pt-2 z-30">
       {tabs.map((tab) => (
         <Link
           key={tab.path}
