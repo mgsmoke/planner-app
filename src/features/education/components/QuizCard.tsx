@@ -1,5 +1,10 @@
 import React from 'react';
-import { Quiz } from '../types';
+
+type Quiz = {
+  title: string;
+  description: string;
+  link: string;
+};
 
 interface Props {
   quiz: Quiz;
