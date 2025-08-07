@@ -73,9 +73,15 @@ const CalendarButton = () => {
                   onClick={() => selectDate(day)}
                   className={`
                     h-7 w-7 rounded-full text-sm
-                    ${isSelected ? 'bg-[#6563ff] text-white border-[#6563ff]' : ''}
-                    ${!isCurrentMonth ? 'text-gray-400' : ''}
-                    ${isSameDay(day, new Date()) ? 'border border-[#6563ff]' : ''}
+                    ${
+                      isSelected 
+                      ? isSameDay(day, new Date())
+                        ? 'bg-[#6563ff] text-white'
+                        : 'bg-[#6563ff] text-white'
+                      : isSameDay(day, new Date())
+                        ? 'border border-[#a6a5ff] bg-[#e0e0ff]'
+                        : ''
+                    }
                   `}
                   disabled={!isCurrentMonth}
                 >

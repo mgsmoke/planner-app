@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import ArticleCard from './components/ArticleCard';
 import QuizCard from './components/QuizCard';
-import { articles } from './data/articles';
-import { quizzes } from './data/quizzes';
-import { Article, Quiz } from './types';
+import { articles } from '../../store/articles.ts';
+import { quizzes } from '../../store/quizzes.ts';
+
+type Quiz = {
+  title: string;
+  description: string;
+  link: string;
+};
+
+type Article = {
+  title: string;
+  description: string;
+};
 
 const EducationSection: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<'articles' | 'quizzes'>('articles');

@@ -1,4 +1,7 @@
-import { Article } from '../types';
+type Article = {
+  title: string;
+  description: string;
+};
 
 export const articles: Article[] = [
   {

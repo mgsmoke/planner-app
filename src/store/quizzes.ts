@@ -1,4 +1,8 @@
-import { Quiz } from '../types';
+type Quiz = {
+  title: string;
+  description: string;
+  link: string;
+};
 
 export const quizzes: Quiz[] = [
   {

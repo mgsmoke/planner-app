@@ -83,7 +83,7 @@ function AddButton() {
 
       <motion.div
         ref={containerRef}
-        className="fixed bottom-20 right-4 z-40 flex items-end gap-2"
+        className="fixed bottom-24 right-[4%] z-40 flex items-end gap-2"
         animate={{
           x: hideButton ? 100 : 0,
           opacity: hideButton ? 0 : 1,
@@ -95,7 +95,7 @@ function AddButton() {
             <motion.div
               key="buttons"
               initial={{ width: 44 }}
-              animate={{ width: 'max-content' }}
+              animate={{ width: '94vw' }}
               exit={{ width: 44 }}
               transition={{ duration: 0.3 }}
               className="flex gap-2 p-2 overflow-hidden"
@@ -105,7 +105,7 @@ function AddButton() {
                   handleClose();
                   setModalType('todo');
                 }}
-                className="px-4 py-2 bg-[#6563ff] text-white rounded text-base shadow h-[40px]"
+                className="px-4 py-2 bg-[#6563ff] text-white rounded text-base shadow h-[40px] w-[46%]"
               >
                 <motion.span
                   initial={{ opacity: 0 }}
@@ -127,7 +127,7 @@ function AddButton() {
                   handleClose();
                   setModalType('habit');
                 }}
-                className="px-4 py-2 bg-green-500 text-white rounded text-base shadow h-[40px]"
+                className="px-4 py-2 bg-green-500 text-white rounded text-base shadow h-[40px] w-[54%]"
               >
                 <motion.span
                   initial={{ opacity: 0 }}

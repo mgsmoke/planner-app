@@ -86,6 +86,7 @@ export default function SwipeableItem({
       <motion.div
         className="swipeable-content absolute inset-0 z-10 flex items-center overflow-hidden rounded-full bg-white"
         drag="x"
+        dragDirectionLock
         dragConstraints={{ 
           left: isLeftOpen ? SNAP_POINT_LEFT : Math.min(SNAP_POINT_LEFT, 0),
           right: 0,

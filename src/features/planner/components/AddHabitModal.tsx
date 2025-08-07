@@ -39,8 +39,8 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <div>
-          <p className="font-medium mb-1">Цвет:</p>
+        <div className="flex items-center gap-3">
+          <p className="font-medium">Цвет:</p>
           <div className="flex gap-2">
             {colors.map((color) => (
             <button
@@ -54,9 +54,9 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
           </div>
         </div>
 
-        <div>
-          <p className="font-medium mb-1">Иконка:</p>
-          <div className="flex gap-3">
+        <div className="flex items-center gap-3">
+          <p className="font-medium">Иконка:</p>
+          <div className="flex gap-2">
             {icons.map(({ name, icon }) => (
               <button
                 key={name}
@@ -72,13 +72,13 @@ const AddHabitModal: React.FC<AddHabitModalProps> = ({ onClose, onAdd }) => {
           </div>
         </div>
 
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">
+        <div className="flex justify-center gap-2">
+          <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded w-[50%]">
             Отмена
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 bg-[#6563ff] text-white rounded"
+            className="px-4 py-2 bg-green-500 text-white rounded w-[50%]"
           >
             Добавить
           </button>

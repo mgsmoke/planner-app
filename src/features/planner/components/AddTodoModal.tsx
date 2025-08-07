@@ -35,11 +35,11 @@ const AddTodoModal: React.FC<AddTodoModalProps> = ({ onClose, onAdd }) => {
           onChange={(e) => setDate(e.target.value)}
         />
 
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">
+        <div className="flex justify-center gap-2">
+          <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded w-[50%]">
             Отмена
           </button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-[#6563ff] text-white rounded">
+          <button onClick={handleSubmit} className="px-4 py-2 bg-[#6563ff] text-white rounded w-[50%]">
             Добавить
           </button>
         </div>
